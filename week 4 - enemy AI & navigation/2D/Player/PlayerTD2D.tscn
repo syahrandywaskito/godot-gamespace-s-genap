@@ -1,0 +1,96 @@
+[gd_scene format=3 uid="uid://dhh8m3c7abkvt"]
+
+[ext_resource type="Texture2D" uid="uid://4dtugej6cdrd" path="res://assets/2d/Scribbles/PNG/Default (64px)/Characters/yellow_character.png" id="1_57tjs"]
+[ext_resource type="Script" uid="uid://cyhmurkwef6yr" path="res://week 4 - enemy AI & navigation/2D/Player/PlayerTD.gd" id="2_lvghx"]
+[ext_resource type="Texture2D" uid="uid://efah1i8rqnpp" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_dagger.png" id="3_keb41"]
+[ext_resource type="Script" uid="uid://cai0ebaxpyfyt" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponComponent.gd" id="4_weapon"]
+[ext_resource type="Script" uid="uid://dt6rfb6jmhb4r" path="res://week 4 - enemy AI & navigation/2D/Components/HitboxComponent.gd" id="5_hitbox"]
+[ext_resource type="Script" uid="uid://bmsdln5m2ego0" path="res://week 4 - enemy AI & navigation/2D/Player/AttackController.gd" id="6_attack"]
+[ext_resource type="Script" uid="uid://dox1utc06vc5m" path="res://week 4 - enemy AI & navigation/2D/Components/HealthComponent.gd" id="7_health"]
+[ext_resource type="Script" uid="uid://b65njmjbqb8yj" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponStats.gd" id="8_stats"]
+[ext_resource type="PackedScene" uid="uid://b2k8x7u8j1m1" path="res://week 4 - enemy AI & navigation/2D/Player/PlayerHUD.tscn" id="9_hud"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qw1e0"]
+radius = 25.0
+
+[sub_resource type="Resource" id="Resource_dagger"]
+script = ExtResource("8_stats")
+damage = 25.0
+attack_cooldown = 0.3
+weapon_name = "Dagger"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_weapon"]
+size = Vector2(40, 40)
+
+[sub_resource type="Animation" id="Animation_slash"]
+resource_name = "slash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.785398, 0.785398, -0.785398]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_weapon"]
+_data = {
+&"slash": SubResource("Animation_slash")
+}
+
+[node name="PlayerTopDown2D" type="CharacterBody2D" unique_id=499536130]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("2_lvghx")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1352239678]
+texture = ExtResource("1_57tjs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=514701865]
+shape = SubResource("CircleShape2D_qw1e0")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=186381881]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="Weapon" type="Node2D" parent="." unique_id=1001603771]
+script = ExtResource("4_weapon")
+stats = SubResource("Resource_dagger")
+
+[node name="WeaponPivot" type="Node2D" parent="Weapon" unique_id=49215318]
+rotation = -0.785398
+
+[node name="Sprite2D" type="Sprite2D" parent="Weapon/WeaponPivot" unique_id=718850027]
+position = Vector2(35, 0)
+rotation = 1.5708
+texture = ExtResource("3_keb41")
+
+[node name="Hitbox" type="Area2D" parent="Weapon/WeaponPivot" unique_id=1670743212]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("5_hitbox")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/WeaponPivot/Hitbox" unique_id=2055042699]
+position = Vector2(35, 0)
+shape = SubResource("RectangleShape2D_weapon")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Weapon" unique_id=273546274]
+libraries/ = SubResource("AnimationLibrary_weapon")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1379828165]
+script = ExtResource("7_health")
+
+[node name="AttackController" type="Node" parent="." unique_id=1004359315 node_paths=PackedStringArray("weapon")]
+script = ExtResource("6_attack")
+weapon = NodePath("../Weapon")
+
+[node name="PlayerHUD" parent="." unique_id=76365897 instance=ExtResource("9_hud")]
+
+[connection signal="area_entered" from="Weapon/WeaponPivot/Hitbox" to="Weapon/WeaponPivot/Hitbox" method="_on_area_entered"]
+[connection signal="body_entered" from="Weapon/WeaponPivot/Hitbox" to="Weapon/WeaponPivot/Hitbox" method="_on_body_entered"]

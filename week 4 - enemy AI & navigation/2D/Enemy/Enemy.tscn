@@ -1,0 +1,132 @@
+[gd_scene format=3 uid="uid://c6xw7wle5rt35"]
+
+[ext_resource type="Script" uid="uid://dwquoy5vcsbmf" path="res://week 4 - enemy AI & navigation/2D/Enemy/EnemyBase.gd" id="1_enemy"]
+[ext_resource type="Texture2D" uid="uid://vunlpy3ilo0y" path="res://assets/2d/Scribbles/PNG/Default (64px)/Characters/red_character.png" id="2_sprite"]
+[ext_resource type="Script" uid="uid://cai0ebaxpyfyt" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponComponent.gd" id="3_weapon"]
+[ext_resource type="Texture2D" uid="uid://bldqyrcfvtxut" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_axe.png" id="4_axe"]
+[ext_resource type="Script" uid="uid://dt6rfb6jmhb4r" path="res://week 4 - enemy AI & navigation/2D/Components/HitboxComponent.gd" id="5_hitbox"]
+[ext_resource type="Script" uid="uid://dox1utc06vc5m" path="res://week 4 - enemy AI & navigation/2D/Components/HealthComponent.gd" id="6_health"]
+[ext_resource type="Script" uid="uid://c66llv4sso58n" path="res://week 4 - enemy AI & navigation/2D/Enemy/EnemyHealthBar.gd" id="7_bar"]
+[ext_resource type="Script" uid="uid://hiqjjqawcr13" path="res://week 4 - enemy AI & navigation/2D/Enemy/EnemyStateMachine.gd" id="8_fsm"]
+[ext_resource type="Script" uid="uid://b65njmjbqb8yj" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponStats.gd" id="9_stats"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_enemy"]
+radius = 25.0
+
+[sub_resource type="Resource" id="Resource_axe"]
+script = ExtResource("9_stats")
+damage = 15.0
+attack_cooldown = 1.0
+weapon_name = "Axe"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_weapon"]
+size = Vector2(40, 40)
+
+[sub_resource type="Animation" id="Animation_slash"]
+resource_name = "slash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.785398, 0.785398, -0.785398]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_weapon"]
+_data = {
+&"slash": SubResource("Animation_slash")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fg"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=2036396117 node_paths=PackedStringArray("weapon", "health_component")]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_enemy")
+speed = 150.0
+weapon = NodePath("Weapon")
+health_component = NodePath("HealthComponent")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1485893648]
+texture = ExtResource("2_sprite")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=874045637]
+shape = SubResource("CircleShape2D_enemy")
+
+[node name="Weapon" type="Node2D" parent="." unique_id=1913162411]
+script = ExtResource("3_weapon")
+stats = SubResource("Resource_axe")
+
+[node name="WeaponPivot" type="Node2D" parent="Weapon" unique_id=1983339844]
+rotation = -0.785398
+
+[node name="Sprite2D" type="Sprite2D" parent="Weapon/WeaponPivot" unique_id=1329789553]
+position = Vector2(35, 0)
+rotation = 1.5708
+texture = ExtResource("4_axe")
+
+[node name="Hitbox" type="Area2D" parent="Weapon/WeaponPivot" unique_id=1662337753]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_hitbox")
+target_groups = Array[String](["Player"])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/WeaponPivot/Hitbox" unique_id=498678468]
+position = Vector2(35, 0)
+shape = SubResource("RectangleShape2D_weapon")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Weapon" unique_id=1056624622]
+libraries/ = SubResource("AnimationLibrary_weapon")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1054093590]
+script = ExtResource("6_health")
+max_health = 50.0
+
+[node name="HealthBar" type="ProgressBar" parent="." unique_id=376313488 node_paths=PackedStringArray("health_component")]
+offset_left = -30.0
+offset_top = -50.0
+offset_right = 30.0
+offset_bottom = -45.0
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_fg")
+value = 50.0
+show_percentage = false
+script = ExtResource("7_bar")
+health_component = NodePath("../HealthComponent")
+
+[node name="StateMachine" type="Node" parent="." unique_id=136981881 node_paths=PackedStringArray("enemy")]
+script = ExtResource("8_fsm")
+enemy = NodePath("..")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=910429681]
+target_desired_distance = 20.0
+avoidance_enabled = true
+debug_enabled = true
+
+[node name="SightRayCast" type="RayCast2D" parent="." unique_id=1150012707]
+target_position = Vector2(300, 0)
+collision_mask = 3
+
+[node name="SightCue" type="Label" parent="." unique_id=1668233570]
+offset_left = -20.0
+offset_top = -80.0
+offset_right = 20.0
+offset_bottom = -57.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="area_entered" from="Weapon/WeaponPivot/Hitbox" to="Weapon/WeaponPivot/Hitbox" method="_on_area_entered"]
+[connection signal="body_entered" from="Weapon/WeaponPivot/Hitbox" to="Weapon/WeaponPivot/Hitbox" method="_on_body_entered"]
