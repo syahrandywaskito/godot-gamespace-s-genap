@@ -1,26 +1,70 @@
 # GODOT GAMESPACE SEMESTER GENAP
 
+Selamat datang di repositori pembelajaran Godot Engine Semester Genap. Repositori ini berisi materi mingguan mulai dari dasar pergerakan hingga sistem AI yang kompleks.
+
 ## 1. Movement & Feel 
 
 ### Velocity & move_and_slide()
-Movement di godot itu sendiri dan kebanyakan engine itu dipengaruhi oleh Velocity. Velocity lebih banyak digunakan karena bisa mengatur atau menyesuaikan dengan pemrosesan fisika. 
-Berbeda dengan engine lain, untuk menjalankan velocity dan pemrosesan fisika lain itu menggunakan fungsi bernama `move_and_slide()`. 
+Pergerakan di Godot dipengaruhi oleh **Velocity** (Vektor kecepatan). Untuk menerapkan velocity pada `CharacterBody2D/3D` dan menangani tabrakan dengan lingkungan, digunakan fungsi `move_and_slide()`.
 
-### Smooth
-Pergerakan pada game memang bisa dilakukan dengan hanya velocity dan proses fisika lain. Namun, pada kasus tertentu terasa hambar karena tidak ada berat atau weight dari karakter. Untuk menambahkan smooth itu ada dua cara yang bisa dilakukan 
-1. `move_toward(current, target, delta)` -> mengubah nilai secara linier. Artinya, setiap frame nilainya berubah dengan jumlah yang pasti dan sama sampai mencapai target
-2. `lerp(from, to, weight)` -> mengubah nilai berdasarkan persentase/bobot. Artinya, semakin dekat nilai dengan target, pergerakannya akan semakin lambat.
+### Smoothing (Penghalusan)
+Untuk memberikan bobot (*weight*) pada karakter agar tidak terasa kaku:
+1.  **`move_toward(current, target, delta)`**: Mengubah nilai secara linier. Cocok untuk akselerasi/dekselerasi yang pasti.
+2.  **`lerp(from, to, weight)`**: Mengubah nilai berdasarkan persentase. Memberikan efek pergerakan yang melambat saat mendekati target (*ease-out*).
 
 ### Coyote Time & Jump Buffer 
-Coyote Time dan Jump Buffer itu sangat erat kaitannya dengan Jump, entah itu di 2D atau 3D dua hal ini itu ada. 
-1. Coyote Time sendiri itu seperti kamu diberikan waktu mengambang diudara dan diizinkan melompat. Coyote Time itu ada karena banyak player yang sering menggunakan momentum melompat di ujung ground atau ledge. Jika tidak menggunakan Coyote Time, karakter akan langsung jatuh dan player tidak ada kesempatan untuk lompat.
-2. Jump Buffer itu ibaratkan kamu menyimpan lompatan untuk digunakan nanti setelah karakter menyentuh tanah. Kamu bisa menekan tombol jump diudara, dan akan disimpan sementara. Saat sudah mendarat di ground simpanan tadi akan langsung dikeluarkan, dan membuat karaktermu melompat
+Mekanik untuk meningkatkan *game feel* saat melompat:
+1.  **Coyote Time**: Memberikan toleransi waktu singkat bagi pemain untuk tetap bisa melompat meskipun sudah melewati ujung platform.
+2.  **Jump Buffer**: Menyimpan input lompatan sesaat sebelum pemain menyentuh tanah, sehingga lompatan langsung dipicu begitu karakter mendarat.
+
+---
 
 ## 2. Interaction System & Inventory Logic
 
-### Perbedaan Deteksi Antaran Area dan Raycast
-Dalam godot engine sendiri untuk melakukan deteksi item atau apapun itu yang bisa diinteraksi di dalam game dapat menggunakan dua cara. Pertama, bisa menggunakan raycast (laser detectection) dan area (area detection). Kedua cara itu sering di gunakan di dalam pengembangan game. Namun perbedaannya apa sih ?. Oke berikut perbedaannya. 
+### Sistem Deteksi: RayCast vs Area
+1.  **RayCast**: Deteksi presisi menggunakan garis lurus (laser). Sangat cepat dan cocok untuk interaksi yang membutuhkan akurasi pandangan (seperti menembak atau mengambil item kecil).
+2.  **Area**: Deteksi berbasis zona (aura). Mendeteksi semua objek yang masuk ke dalam radius tertentu. Cocok untuk *proximity check* atau trigger otomatis.
 
-1. Racyast : raycast itu diibaratkan sebagai laser yang ditembakkan lurus pada jarak tertentu. Raycast ini sangat presisi, cocok untuk pendeteksian yang lebih spesifik. Raycast bekerja dengan menembakkan laser lurus kedepan, dan ketika ada object yang dikeaninya, makan raycast akan memberitahu bahwa dia sudah mengenai object.
-2. Area : Area itu diibaratkan aura yang ada mengelilingi object. Apapun yang masuk ke arae itu akan dideteksi oleh object tersebut. Berbeda dengan raycast yang sangat presisi, area berbeda. Dia mengecek semua object yang masuk tanpa terkecuali, dan tidak bisa memilih object apa yang ingin dilihat, tidak seperti raycast. Untuk memilih object yang akan diinteraksi, arae harus memiliki logika pengecekan jarak paling dekat.
+### Inventory Logic & Autoload
+Menggunakan pola **Singleton (Autoload)** dengan `InventoryManager.gd` untuk menyimpan data item (seperti koin) yang tetap persisten meskipun pemain berpindah antar scene.
 
+---
+
+## 3. Projectile & Combat
+
+### Projectile System
+- **Spawning**: Teknik melakukan *instantiate* scene peluru saat tombol tembak ditekan.
+- **Velocity**: Menggerakkan peluru secara konsisten ke arah tertentu.
+- **Despawning**: Menghapus peluru menggunakan `VisibleOnScreenNotifier2D` atau `Timer` untuk menghemat memori.
+
+### Damage System Dasar
+Implementasi fungsi `take_damage` pada objek target (seperti `DummyTarget.gd`) untuk menerima input damage dan memperbarui bar kesehatan.
+
+---
+
+## 4. Enemy AI & Navigation
+
+### Navigation System (Pathfinding)
+- **NavigationRegion2D**: Mendefinisikan area yang bisa dilewati (*NavMesh*). Tanpa node ini, AI tidak tahu arah jalan.
+- **NavigationAgent2D**: Bertindak sebagai GPS bagi musuh untuk menghitung jalur terpendek dan menghindari rintangan.
+
+### Finite State Machine (FSM)
+Mengatur perilaku AI agar lebih terorganisir menggunakan `enum` status:
+- **IDLE**: Diam menunggu atau saat kehilangan jejak.
+- **PATROL**: Bergerak di antara titik-titik koordinat tertentu.
+- **CHASE**: Mengejar pemain menggunakan navigasi cerdas.
+- **ATTACK**: Berhenti dan melakukan serangan saat jarak sudah mencukupi.
+
+### Vision System & Visual Cues
+- **Line of Sight (LoS)**: Menggunakan `RayCast2D` untuk memastikan musuh tidak bisa melihat pemain jika terhalang tembok.
+- **Visual Cues**: Indikator status di atas kepala musuh:
+    *   `?` (Putih): Waspada/Patroli.
+    *   `!` (Kuning): Mengejar (Chase).
+    *   `!!` (Merah): Menyerang (Attack).
+
+### Composition Pattern
+Memisahkan logika menjadi komponen-komponen mandiri yang bisa digunakan ulang:
+- `HealthComponent`: Mengelola HP dan kematian.
+- `HitboxComponent`: Mendeteksi tabrakan serangan dan memberikan damage.
+- `WeaponComponent`: Mengatur visual senjata, rotasi, dan cooldown.
+- `WeaponStats`: Resource untuk menyimpan data damage dan kecepatan senjata.
