@@ -1,26 +1,34 @@
 class_name PlayerFPS
 extends CharacterBody3D
 
-@export_group("Health Bar")
-@export var max_health: float = 100
-
 @export var sensitivity: float = 0.003
 @export var speed: float = 5.0
 @export var jump_force: float = 4.5
 @export var head: Node3D = null
 @export var camera: Camera3D = null
 
-var _current_health: float = 0
+@onready var health_component: HealthComponent3D = $HealthComponent3D
+
+## Getter untuk UI HealthBar3D agar bisa sinkron
+func get_current_health() -> float:
+	if health_component: return health_component.current_health
+	return 0.0
+
+## Getter untuk UI HealthBar3D untuk inisialisasi bar
+func get_max_health() -> float:
+	if health_component: return health_component.max_health
+	return 100.0
 
 func _ready() -> void:
-	_current_health = max_health
-
-func get_current_health() -> float:
-	return _current_health
+	add_to_group("Player")
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("left_click"): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	if event.is_action_pressed("ui_cancel"): Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	if event.is_action_pressed("ui_cancel"): 
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -47,3 +55,8 @@ func _move() -> void:
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
+
+func take_damage(amount: float) -> void:
+	print("player hitted")
+	if health_component:
+		health_component.take_damage(amount)

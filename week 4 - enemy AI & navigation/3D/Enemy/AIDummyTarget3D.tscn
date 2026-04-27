@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://bwqqvwm7hda8y"]
+
+[ext_resource type="Script" uid="uid://bx0nwq8gpo0m2" path="res://week 4 - enemy AI & navigation/3D/Enemy/EnemyBase3D.gd" id="1_enemy"]
+[ext_resource type="Script" uid="uid://dewvirtb8c7y0" path="res://week 4 - enemy AI & navigation/3D/Components/HealthComponent3D.gd" id="2_health"]
+[ext_resource type="Script" uid="uid://bjymaweu7tn5g" path="res://week 4 - enemy AI & navigation/3D/Components/VisionComponent3D.gd" id="3_vision"]
+[ext_resource type="Script" uid="uid://ck5s0n6vawkjl" path="res://week 4 - enemy AI & navigation/3D/Enemy/EnemyStateMachine3D.gd" id="4_fsm"]
+[ext_resource type="PackedScene" uid="uid://b8545trp3r45q" path="res://week 4 - enemy AI & navigation/3D/Enemy/EnemyHealthBar3D.tscn" id="5_hpbar"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_enemy"]
+albedo_color = Color(0.92156863, 0.22745098, 0.13725491, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_enemy"]
+material = SubResource("StandardMaterial3D_enemy")
+
+[sub_resource type="BoxMesh" id="BoxMesh_lvqow"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_enemy"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_detection"]
+radius = 15.0
+
+[node name="Enemy3D" type="CharacterBody3D" unique_id=910003680 groups=["Enemy"]]
+collision_layer = 4
+collision_mask = 11
+script = ExtResource("1_enemy")
+speed = 1.5
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=857521987]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_enemy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Mesh" unique_id=245648936]
+transform = Transform3D(0.58852684, 0, 0, 0, 0.2772456, 0, 0, 0, 0.25931025, 0, 0.56843674, -0.3995908)
+mesh = SubResource("BoxMesh_lvqow")
+
+[node name="Collision" type="CollisionShape3D" parent="." unique_id=1172047563]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_enemy")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=271041229]
+path_desired_distance = 0.5
+target_desired_distance = 0.5
+debug_enabled = true
+
+[node name="HealthComponent3D" type="Node" parent="." unique_id=299216132]
+script = ExtResource("2_health")
+max_health = 50.0
+
+[node name="VisionComponent3D" type="Area3D" parent="." unique_id=1712828550]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_vision")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisionComponent3D" unique_id=1390571964]
+shape = SubResource("SphereShape3D_detection")
+
+[node name="RayCast3D" type="RayCast3D" parent="VisionComponent3D" unique_id=2019151473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+target_position = Vector3(0, 0, -15)
+collision_mask = 3
+
+[node name="StateMachine" type="Node" parent="." unique_id=618441386 node_paths=PackedStringArray("enemy", "vision", "sight_cue")]
+script = ExtResource("4_fsm")
+enemy = NodePath("..")
+vision = NodePath("../VisionComponent3D")
+sight_cue = NodePath("../SightCue")
+
+[node name="SightCue" type="Label3D" parent="." unique_id=1863011000]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.872881, 0)
+billboard = 1
+text = "?"
+font_size = 64
+outline_size = 40
+
+[node name="EnemyHealthBar3D" parent="." unique_id=954886239 node_paths=PackedStringArray("health_component") instance=ExtResource("5_hpbar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+health_component = NodePath("../HealthComponent3D")

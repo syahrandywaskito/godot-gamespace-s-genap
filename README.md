@@ -45,22 +45,19 @@ Implementasi fungsi `take_damage` pada objek target (seperti `DummyTarget.gd`) u
 ## 4. Enemy AI & Navigation
 
 ### Navigation System (Pathfinding)
-- **NavigationRegion2D**: Mendefinisikan area yang bisa dilewati (*NavMesh*). Tanpa node ini, AI tidak tahu arah jalan.
-- **NavigationAgent2D**: Bertindak sebagai GPS bagi musuh untuk menghitung jalur terpendek dan menghindari rintangan.
+- **NavigationRegion2D & NavigationRegion3D**: Mendefinisikan area yang bisa dilewati (*NavMesh*). Tanpa node ini, AI tidak tahu arah jalan.
+- **NavigationAgent2D & NavigationAgent3D**: Bertindak sebagai GPS bagi musuh untuk menghitung jalur terpendek dan menghindari rintangan.
 
 ### Finite State Machine (FSM)
-Mengatur perilaku AI agar lebih terorganisir menggunakan `enum` status:
+Mengatur perilaku AI agar lebih terorganisir menggunakan `enum` status (Berlaku untuk 2D dan 3D):
 - **IDLE**: Diam menunggu atau saat kehilangan jejak.
 - **PATROL**: Bergerak di antara titik-titik koordinat tertentu.
 - **CHASE**: Mengejar pemain menggunakan navigasi cerdas.
 - **ATTACK**: Berhenti dan melakukan serangan saat jarak sudah mencukupi.
 
 ### Vision System & Visual Cues
-- **Line of Sight (LoS)**: Menggunakan `RayCast2D` untuk memastikan musuh tidak bisa melihat pemain jika terhalang tembok.
-- **Visual Cues**: Indikator status di atas kepala musuh:
-    *   `?` (Putih): Waspada/Patroli.
-    *   `!` (Kuning): Mengejar (Chase).
-    *   `!!` (Merah): Menyerang (Attack).
+- **Line of Sight (LoS)**: Menggunakan `RayCast2D/3D` untuk memastikan musuh tidak bisa melihat pemain jika terhalang tembok.
+- **Visual Cues**: Indikator status di atas kepala musuh (2D menggunakan Sprite, 3D menggunakan Label3D/Sprite3D).
 
 ### Composition Pattern
 Memisahkan logika menjadi komponen-komponen mandiri yang bisa digunakan ulang:

@@ -33,7 +33,8 @@ func _ready() -> void:
 	# Jika tidak ada titik patroli, buat satu titik otomatis
 	if patrol_points.is_empty():
 		patrol_points.append(start_position)
-		patrol_points.append(start_position + Vector2(200, 0))
+		patrol_points.append(start_position + Vector2(0, 200))
+		#print("patrol point : " + str(patrol_points))
 
 func _physics_process(delta: float) -> void:
 	state_timer -= delta
@@ -70,7 +71,7 @@ func _can_see_target() -> bool:
 	if target == null: return false
 	
 	var dist = enemy.global_position.distance_to(target.global_position)
-	if dist > detection_range: return false
+	if dist > detection_range: return false # jika belum masuk maka biarkan
 	
 	# Arahkan raycast ke target
 	sight_ray.target_position = sight_ray.to_local(target.global_position)
@@ -88,10 +89,10 @@ func _update_state_logic() -> void:
 	
 	if seen:
 		var dist = enemy.global_position.distance_to(target.global_position)
-		if dist <= attack_range:
+		if dist <= attack_range: # masuk ke jarak attack
 			change_state(State.ATTACK)
 		else:
-			change_state(State.CHASE)
+			change_state(State.CHASE) # tidak masuk ke jarak serang dia akan ngejar
 	else:
 		# Jika tidak melihat target, kembali ke IDLE/PATROL
 		if current_state == State.CHASE or current_state == State.ATTACK:
@@ -102,6 +103,7 @@ func _update_state_logic() -> void:
 			change_state(State.PATROL)
 		elif current_state == State.PATROL and enemy.nav_agent.is_navigation_finished():
 			patrol_index = (patrol_index + 1) % patrol_points.size()
+			print("patrol index : " + str(patrol_points[patrol_index]) + " index : " + str(patrol_index))
 			change_state(State.IDLE)
 
 func _update_sight_cue() -> void:
@@ -126,6 +128,7 @@ func _chase_state(_delta: float) -> void:
 		enemy.nav_agent.target_position = target.global_position
 		var next_path_pos = enemy.nav_agent.get_next_path_position()
 		var dir = (next_path_pos - enemy.global_position).normalized()
+		#print("next path pos : " + str(next_path_pos) + " | dir : " + str(dir))
 		enemy.velocity = dir * enemy.speed
 
 func _attack_state(_delta: float) -> void:

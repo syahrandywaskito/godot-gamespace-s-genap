@@ -5,17 +5,16 @@ class_name EnemyBase
 extends CharacterBody2D
 
 ## Kecepatan jalan musuh.
-@export var speed: float = 200.0
+@export var speed: float = 200.0 
 ## Referensi ke komponen senjata musuh.
-@export var weapon: WeaponComponent
+@export var weapon: WeaponComponent = null
 ## Referensi ke komponen kesehatan musuh.
-@export var health_component: HealthComponent
+@export var health_component: HealthComponent = null
 
 ## Referensi ke NavigationAgent2D untuk pathfinding.
-@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
+@export var nav_agent: NavigationAgent2D = null
 
 func _ready() -> void:
-	add_to_group("Enemy")
 	if health_component:
 		health_component.died.connect(_on_died)
 

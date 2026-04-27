@@ -10,7 +10,7 @@ albedo_color = Color(0.92156863, 0.22745098, 0.13725491, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ihjo2"]
 material = SubResource("StandardMaterial3D_ihjo2")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihjo2"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1pbo"]
 bg_color = Color(0.19434929, 0.19434926, 0.19434926, 1)
 border_width_left = 4
 border_width_top = 4
@@ -22,7 +22,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1pbo"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4n201"]
 bg_color = Color(0.8980392, 0, 0.11764706, 1)
 border_width_left = 4
 border_width_top = 4
@@ -40,8 +40,8 @@ ProgressBar/colors/font_outline_color = Color(0, 0, 0, 1)
 ProgressBar/constants/outline_size = 0
 ProgressBar/font_sizes/font_size = 16
 ProgressBar/fonts/font = null
-ProgressBar/styles/background = SubResource("StyleBoxFlat_ihjo2")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_j1pbo")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_j1pbo")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_4n201")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_j1pbo"]
 viewport_path = NodePath("SubViewport")
