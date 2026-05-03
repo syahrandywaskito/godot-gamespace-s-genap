@@ -39,5 +39,6 @@ func take_damage(amount: float) -> void:
 ## Menghapus musuh dari scene saat mati.
 func _on_died() -> void:
 	velocity = Vector2.ZERO # menghentikan velocity untuk mendapat last position
+	GameManager.register_killed_enemy(name)
 	GameManager.spawn_coin.emit(last_pos)
 	queue_free()

@@ -25,3 +25,10 @@ func take_damage(amount: float) -> void:
 	
 	if current_health <= 0:
 		died.emit()
+
+## Mengatur kesehatan objek secara langsung (digunakan oleh load system).
+func set_health(amount: float) -> void:
+	current_health = clamp(amount, 0, max_health)
+	health_changed.emit(current_health, max_health)
+	# Update signal bus untuk HUD
+	SignalBus.health_changed.emit(current_health)

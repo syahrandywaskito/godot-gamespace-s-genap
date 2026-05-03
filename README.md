@@ -85,3 +85,12 @@ Memanfaatkan `SignalBus.gd` sebagai Autoload untuk menangani event global sepert
 Implementasi sistem pemilihan senjata berbasis Resource (`WeaponStats`):
 - **Logic**: Mengelola daftar senjata dalam array dan memperbarui stats pada `WeaponComponent` secara dinamis.
 - **Interactive UI**: Menggunakan tombol transparan (`Button`) dengan visual konfirmasi (*Click Flash*) untuk memilih senjata via mouse.
+
+### Save & Load System (Resource-Based)
+Sistem persistensi data menggunakan fitur native Godot **ResourceSaver** dan **ResourceLoader** untuk menyimpan state permainan ke dalam file `.tres` (debug) atau `.res` (release).
+- **SaveGame Resource**: Custom resource yang menampung data posisi player, statistik (HP, Stamina, Coin), index senjata aktif, hingga posisi musuh.
+- **GameManager Logic**:
+    - **Collect**: Mengumpulkan data dari berbagai komponen saat tombol Save ditekan.
+    - **Apply**: Mendistribusikan kembali data yang dimuat ke komponen terkait menggunakan fungsi setter.
+    - **Enemy Tracking**: Melacak nama node musuh yang telah mati agar tidak muncul kembali saat load, serta menyimpan koordinat musuh yang masih hidup.
+- **Auto-Load**: Pemuatan data otomatis saat scene `TopDownWorld` siap, memastikan kontinuitas permainan bagi pemain.

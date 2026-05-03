@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvg20m8tmwe02"]
+
+[ext_resource type="Script" path="res://week 5 - collectible, UI, & data persistence/2D/PauseButton.gd" id="1_script"]
+
+[node name="PauseButton" type="CanvasLayer" unique_id=1874624726]
+script = ExtResource("1_script")
+layer = 2
+
+[node name="Button" type="Button" parent="." unique_id=1296445122]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -117.0
+offset_top = 22.0
+offset_right = -21.0
+offset_bottom = 62.0
+grow_horizontal = 0
+text = "PAUSE"

@@ -9,5 +9,10 @@ extends Node
 func set_coin(amount: int):
 	coin += amount
 
+## Mengatur jumlah koin secara langsung (digunakan oleh load system).
+func set_coins(amount: int) -> void:
+	coin = amount
+	SignalBus.coin_changed.emit(coin)
+
 func get_coin() -> int:
 	return coin

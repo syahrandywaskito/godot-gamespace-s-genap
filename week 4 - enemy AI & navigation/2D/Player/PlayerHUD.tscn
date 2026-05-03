@@ -11,6 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://efah1i8rqnpp" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_dagger.png" id="9_abmr5"]
 [ext_resource type="Script" uid="uid://ci6hpc4vt8qfi" path="res://week 5 - collectible, UI, & data persistence/2D/player/UI/UIWeaponSelector.gd" id="10_selector"]
 [ext_resource type="Script" uid="uid://cy4lkncp3h016" path="res://week 5 - collectible, UI, & data persistence/2D/player/UI/UIWeaponDisplay.gd" id="11_display"]
+[ext_resource type="PackedScene" uid="uid://bkr833g2w40p5" path="res://week 5 - collectible, UI, & data persistence/2D/PauseMenu.tscn" id="12_pause_menu"]
+[ext_resource type="PackedScene" uid="uid://dvg20m8tmwe02" path="res://week 5 - collectible, UI, & data persistence/2D/PauseButton.tscn" id="13_pause_btn"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_js5oy"]
 bg_color = Color(0.29219002, 0.29219005, 0.29219, 1)
@@ -320,3 +322,8 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="PauseMenu" parent="." unique_id=1431982209 instance=ExtResource("12_pause_menu")]
+
+[node name="PauseButton" parent="." unique_id=1431982210 instance=ExtResource("13_pause_btn")]
+process_mode = 3

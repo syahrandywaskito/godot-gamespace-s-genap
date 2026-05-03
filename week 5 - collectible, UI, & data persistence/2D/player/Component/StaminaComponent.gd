@@ -24,6 +24,11 @@ func stamina_refill() -> void:
 	if stamina_timer.is_stopped():
 		stamina_timer.start(stamina_refill_time)
 
+## Mengatur stamina secara langsung (digunakan oleh load system).
+func set_stamina(amount: float) -> void:
+	current_stamina = clamp(amount, 0, max_stamina)
+	SignalBus.stamina_changed.emit(current_stamina)
+
 func _on_stamina_timer_timout() -> void:
 	current_stamina += stamina_gain
 	current_stamina = clamp(current_stamina, 0, max_stamina)
