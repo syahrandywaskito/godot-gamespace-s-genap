@@ -5,7 +5,17 @@ class_name WeaponComponent
 extends Node2D
 
 ## Data statistik senjata (damage, cooldown).
-@export var stats: WeaponStats
+@export var stats: WeaponStats:
+	set(value):
+		stats = value
+		if stats:
+			if hitbox:
+				hitbox.damage = stats.damage
+			# Update visual if Sprite2D exists
+			var sprite = get_node_or_null("WeaponPivot/Sprite2D")
+			if sprite and stats.weapon_image:
+				sprite.texture = stats.weapon_image
+
 ## Kecepatan penghalusan rotasi senjata.
 @export var lerp_speed: float = 15.0
 ## Referensi ke AnimationPlayer untuk visual serangan.

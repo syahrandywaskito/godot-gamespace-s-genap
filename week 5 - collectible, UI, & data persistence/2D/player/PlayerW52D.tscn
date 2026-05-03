@@ -12,6 +12,10 @@
 [ext_resource type="Script" uid="uid://c5xvmb83j5gya" path="res://week 5 - collectible, UI, & data persistence/2D/player/Component/ItemSelect.gd" id="10_xr1q6"]
 [ext_resource type="Script" uid="uid://d2ph8jg4ef0q5" path="res://week 5 - collectible, UI, & data persistence/2D/player/Component/ScoreComponent.gd" id="11_tcost"]
 [ext_resource type="Script" uid="uid://dxnxhdf2rl8a4" path="res://week 5 - collectible, UI, & data persistence/2D/player/Component/StaminaComponent.gd" id="12_tcost"]
+[ext_resource type="Resource" path="res://week 5 - collectible, UI, & data persistence/2D/player/weapon data/Longsword.tres" id="13_longsword"]
+[ext_resource type="Resource" path="res://week 5 - collectible, UI, & data persistence/2D/player/weapon data/Spear.tres" id="14_spear"]
+[ext_resource type="Resource" path="res://week 5 - collectible, UI, & data persistence/2D/player/weapon data/Axe.tres" id="15_axe"]
+[ext_resource type="Resource" uid="uid://b1k8tj24dps5i" path="res://week 5 - collectible, UI, & data persistence/2D/player/weapon data/Dagger.tres" id="16_dagger"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tiva3"]
 radius = 25.0
@@ -97,7 +101,7 @@ metadata/_custom_type_script = "uid://dox1utc06vc5m"
 
 [node name="ItemSelect" type="Node" parent="." unique_id=151204449]
 script = ExtResource("10_xr1q6")
-weapon_list = Array[ExtResource("3_00l10")]([null])
+weapon_list = Array[ExtResource("3_00l10")]([ExtResource("13_longsword"), ExtResource("15_axe"), ExtResource("16_dagger"), ExtResource("14_spear")])
 metadata/_custom_type_script = "uid://c5xvmb83j5gya"
 
 [node name="AttackController" type="Node" parent="." unique_id=1112616246 node_paths=PackedStringArray("weapon")]

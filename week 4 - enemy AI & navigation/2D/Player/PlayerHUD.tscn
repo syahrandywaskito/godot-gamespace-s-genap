@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://1lnkdiw32oht" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_spear.png" id="7_rs8cs"]
 [ext_resource type="Texture2D" uid="uid://bdtvsjafk7dy4" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_axe_large.png" id="8_avpuv"]
 [ext_resource type="Texture2D" uid="uid://efah1i8rqnpp" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_dagger.png" id="9_abmr5"]
+[ext_resource type="Script" uid="uid://ci6hpc4vt8qfi" path="res://week 5 - collectible, UI, & data persistence/2D/player/UI/UIWeaponSelector.gd" id="10_selector"]
+[ext_resource type="Script" uid="uid://cy4lkncp3h016" path="res://week 5 - collectible, UI, & data persistence/2D/player/UI/UIWeaponDisplay.gd" id="11_display"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_js5oy"]
 bg_color = Color(0.29219002, 0.29219005, 0.29219, 1)
@@ -156,6 +158,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("10_selector")
 
 [node name="ColorRect" type="ColorRect" parent="Control/WeaponSelector" unique_id=112451639]
 layout_mode = 1
@@ -180,14 +183,16 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 
-[node name="List 1" type="TextureRect" parent="Control/WeaponSelector/Control" unique_id=214394194]
+[node name="List 1" type="Button" parent="Control/WeaponSelector/Control" unique_id=214394194]
 layout_mode = 0
 offset_top = -108.0
 offset_right = 64.0
 offset_bottom = -44.0
-texture = ExtResource("6_017vi")
+icon = ExtResource("6_017vi")
+flat = true
+expand_icon = true
 
 [node name="Panel" type="Panel" parent="Control/WeaponSelector/Control/List 1" unique_id=1431982208]
 z_index = -1
@@ -197,13 +202,16 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="List 2" type="TextureRect" parent="Control/WeaponSelector/Control" unique_id=1014132657]
+[node name="List 2" type="Button" parent="Control/WeaponSelector/Control" unique_id=1014132657]
 layout_mode = 0
 offset_top = 47.0
 offset_right = 64.0
 offset_bottom = 111.0
-texture = ExtResource("7_rs8cs")
+icon = ExtResource("7_rs8cs")
+flat = true
+expand_icon = true
 
 [node name="Panel" type="Panel" parent="Control/WeaponSelector/Control/List 2" unique_id=1633313373]
 z_index = -1
@@ -213,14 +221,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="List 3" type="TextureRect" parent="Control/WeaponSelector/Control" unique_id=64324525]
+[node name="List 3" type="Button" parent="Control/WeaponSelector/Control" unique_id=64324525]
 layout_mode = 0
 offset_left = -97.0
 offset_top = -30.0
 offset_right = -33.0
 offset_bottom = 34.0
-texture = ExtResource("8_avpuv")
+icon = ExtResource("8_avpuv")
+flat = true
+expand_icon = true
 
 [node name="Panel" type="Panel" parent="Control/WeaponSelector/Control/List 3" unique_id=1073426503]
 z_index = -1
@@ -230,14 +241,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="List 4" type="TextureRect" parent="Control/WeaponSelector/Control" unique_id=14659270]
+[node name="List 4" type="Button" parent="Control/WeaponSelector/Control" unique_id=14659270]
 layout_mode = 0
 offset_left = 97.0
 offset_top = -29.0
 offset_right = 161.0
 offset_bottom = 35.0
-texture = ExtResource("9_abmr5")
+icon = ExtResource("9_abmr5")
+flat = true
+expand_icon = true
 
 [node name="Panel" type="Panel" parent="Control/WeaponSelector/Control/List 4" unique_id=835047931]
 z_index = -1
@@ -247,6 +261,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="WeaponDisplay" type="Control" parent="Control" unique_id=1679248261]
 layout_mode = 1
@@ -255,12 +270,26 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -80.0
+offset_left = -150.0
 offset_top = -72.0
 offset_right = -40.0
 offset_bottom = -32.0
 grow_horizontal = 0
 grow_vertical = 0
+script = ExtResource("11_display")
+
+[node name="WeaponName" type="Label" parent="Control/WeaponDisplay" unique_id=123456789]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -11.5
+offset_right = -10.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "Weapon"
+horizontal_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control/WeaponDisplay" unique_id=536166441]
 layout_mode = 1

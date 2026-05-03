@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="WeaponStats" format=3 uid="uid://spear_uid"]
+[ext_resource type="Script" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponStats.gd" id="1_stats"]
+[ext_resource type="Texture2D" uid="uid://1lnkdiw32oht" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_spear.png" id="2_tex"]
+
+[resource]
+script = ExtResource("1_stats")
+damage = 35.0
+attack_cooldown = 0.6
+weapon_name = "Spear"
+weapon_image = ExtResource("2_tex")

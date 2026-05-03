@@ -18,6 +18,9 @@ signal coin_changed(current_coin: int)
 signal change_item(current_waeapon: WeaponStats)
 
 @warning_ignore("unused_signal")
+signal weapon_changed(weapon_stats: WeaponStats)
+
+@warning_ignore("unused_signal")
 signal open_item_selector
 
 # ~
