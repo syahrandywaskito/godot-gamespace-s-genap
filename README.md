@@ -65,3 +65,23 @@ Memisahkan logika menjadi komponen-komponen mandiri yang bisa digunakan ulang:
 - `HitboxComponent`: Mendeteksi tabrakan serangan dan memberikan damage.
 - `WeaponComponent`: Mengatur visual senjata, rotasi, dan cooldown.
 - `WeaponStats`: Resource untuk menyimpan data damage dan kecepatan senjata.
+
+---
+
+## 5. Collectible, UI, & Data Persistence
+
+### Signal-Based UI Architecture
+Menggunakan pola **Component Bridge → SignalBus → UI** untuk memisahkan logika permainan dari tampilan visual. Hal ini mencegah ketergantungan antar node (*Decoupling*) dan memudahkan pemeliharaan kode.
+- **Component**: Menyimpan data dan logika (misal: `ItemSelect.gd`, `StaminaComponent.gd`).
+- **SignalBus (Singleton)**: Bertindak sebagai pusat saraf komunikasi global.
+- **UI Node**: Hanya bertugas menampilkan data yang diterima dari signal (misal: `UIWeaponDisplay.gd`).
+
+### Singleton (Autoload) Pattern
+Memanfaatkan `SignalBus.gd` sebagai Autoload untuk menangani event global seperti:
+- `health_changed`, `stamina_changed`, `coin_changed`.
+- `weapon_changed`: Memberitahu seluruh sistem saat pemain mengganti senjata aktif.
+
+### Weapon Selector System
+Implementasi sistem pemilihan senjata berbasis Resource (`WeaponStats`):
+- **Logic**: Mengelola daftar senjata dalam array dan memperbarui stats pada `WeaponComponent` secara dinamis.
+- **Interactive UI**: Menggunakan tombol transparan (`Button`) dengan visual konfirmasi (*Click Flash*) untuk memilih senjata via mouse.
