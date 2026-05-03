@@ -18,6 +18,7 @@ extends CharacterBody2D
 var last_pos: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
+	add_to_group("enemy")
 	if health_component:
 		health_component.died.connect(_on_died)
 

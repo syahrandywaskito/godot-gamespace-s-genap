@@ -322,8 +322,11 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-
 [node name="PauseMenu" parent="." unique_id=1431982209 instance=ExtResource("12_pause_menu")]
+process_mode = 3
+layer = 10
 
 [node name="PauseButton" parent="." unique_id=1431982210 instance=ExtResource("13_pause_btn")]
 process_mode = 3
+layer = 5
+
