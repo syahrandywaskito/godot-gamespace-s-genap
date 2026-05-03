@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://u1wc5n2mx1j4"]
+
+[ext_resource type="Texture2D" uid="uid://4dtugej6cdrd" path="res://assets/2d/Scribbles/PNG/Default (64px)/Characters/yellow_character.png" id="1_o5dqf"]
+[ext_resource type="Script" uid="uid://b8uk1t5r7d33k" path="res://week 5 - collectible, UI, & data persistence/2D/player/PlayerW52D.gd" id="1_rf7g1"]
+[ext_resource type="Script" uid="uid://cai0ebaxpyfyt" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponComponent.gd" id="2_rf7g1"]
+[ext_resource type="Script" uid="uid://b65njmjbqb8yj" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponStats.gd" id="3_00l10"]
+[ext_resource type="Texture2D" uid="uid://efah1i8rqnpp" path="res://assets/2d/Scribbles/PNG/Default (64px)/Items/weapon_dagger.png" id="4_nvisp"]
+[ext_resource type="Script" uid="uid://dt6rfb6jmhb4r" path="res://week 4 - enemy AI & navigation/2D/Components/HitboxComponent.gd" id="5_rhks0"]
+[ext_resource type="Script" uid="uid://dox1utc06vc5m" path="res://week 4 - enemy AI & navigation/2D/Components/HealthComponent.gd" id="7_00l10"]
+[ext_resource type="Script" uid="uid://bmsdln5m2ego0" path="res://week 4 - enemy AI & navigation/2D/Player/AttackController.gd" id="8_nvisp"]
+[ext_resource type="PackedScene" uid="uid://b2k8x7u8j1m1" path="res://week 4 - enemy AI & navigation/2D/Player/PlayerHUD.tscn" id="9_rhks0"]
+[ext_resource type="Script" uid="uid://c5xvmb83j5gya" path="res://week 5 - collectible, UI, & data persistence/2D/player/Component/ItemSelect.gd" id="10_xr1q6"]
+[ext_resource type="Script" uid="uid://d2ph8jg4ef0q5" path="res://week 5 - collectible, UI, & data persistence/2D/player/Component/ScoreComponent.gd" id="11_tcost"]
+[ext_resource type="Script" uid="uid://dxnxhdf2rl8a4" path="res://week 5 - collectible, UI, & data persistence/2D/player/Component/StaminaComponent.gd" id="12_tcost"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tiva3"]
+radius = 25.0
+
+[sub_resource type="Resource" id="Resource_c4vjj"]
+script = ExtResource("3_00l10")
+damage = 25.0
+attack_cooldown = 0.3
+weapon_name = "Dagger"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_asdp0"]
+size = Vector2(40, 40)
+
+[sub_resource type="Animation" id="Animation_slash"]
+resource_name = "slash"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponPivot:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [-0.785398, 0.785398, -0.785398]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r8ltq"]
+_data = {
+&"slash": SubResource("Animation_slash")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tcost"]
+radius = 33.0
+
+[node name="Player2DW5" type="CharacterBody2D" unique_id=1299152087 groups=["Player"]]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1_rf7g1")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=142519448]
+texture = ExtResource("1_o5dqf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=956577084]
+shape = SubResource("CircleShape2D_tiva3")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=205745138]
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="Weapon" type="Node2D" parent="." unique_id=537250351]
+script = ExtResource("2_rf7g1")
+stats = SubResource("Resource_c4vjj")
+
+[node name="WeaponPivot" type="Node2D" parent="Weapon" unique_id=2080133907]
+rotation = -0.785398
+
+[node name="Sprite2D" type="Sprite2D" parent="Weapon/WeaponPivot" unique_id=1989319470]
+position = Vector2(35, 0)
+rotation = 1.5708
+texture = ExtResource("4_nvisp")
+
+[node name="Hitbox" type="Area2D" parent="Weapon/WeaponPivot" unique_id=872434096]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("5_rhks0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Weapon/WeaponPivot/Hitbox" unique_id=518678961]
+position = Vector2(35, 0)
+shape = SubResource("RectangleShape2D_asdp0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Weapon" unique_id=1228667315]
+libraries/ = SubResource("AnimationLibrary_r8ltq")
+
+[node name="PlayerHUD" parent="." unique_id=1419223573 instance=ExtResource("9_rhks0")]
+
+[node name="HealthComponent" type="Node" parent="." unique_id=1550561176]
+script = ExtResource("7_00l10")
+metadata/_custom_type_script = "uid://dox1utc06vc5m"
+
+[node name="ItemSelect" type="Node" parent="." unique_id=151204449]
+script = ExtResource("10_xr1q6")
+weapon_list = Array[ExtResource("3_00l10")]([null])
+metadata/_custom_type_script = "uid://c5xvmb83j5gya"
+
+[node name="AttackController" type="Node" parent="." unique_id=1112616246 node_paths=PackedStringArray("weapon")]
+script = ExtResource("8_nvisp")
+weapon = NodePath("../Weapon")
+metadata/_custom_type_script = "uid://bmsdln5m2ego0"
+
+[node name="StaminaComponent" type="Node" parent="." unique_id=825131203 node_paths=PackedStringArray("stamina_timer")]
+script = ExtResource("12_tcost")
+stamina_consume = 0.5
+stamina_timer = NodePath("../StaminaTimer")
+metadata/_custom_type_script = "uid://dxnxhdf2rl8a4"
+
+[node name="CoinComponent" type="Node" parent="." unique_id=209667458]
+script = ExtResource("11_tcost")
+metadata/_custom_type_script = "uid://d2ph8jg4ef0q5"
+
+[node name="CoinDetector" type="Area2D" parent="." unique_id=1514816284]
+collision_layer = 2
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CoinDetector" unique_id=1955069721]
+shape = SubResource("CircleShape2D_tcost")
+debug_color = Color(0.73260707, 0.31140676, 0.88593596, 0.41960785)
+
+[node name="StaminaTimer" type="Timer" parent="." unique_id=2027078267]
+
+[connection signal="area_entered" from="Weapon/WeaponPivot/Hitbox" to="Weapon/WeaponPivot/Hitbox" method="_on_area_entered"]
+[connection signal="body_entered" from="Weapon/WeaponPivot/Hitbox" to="Weapon/WeaponPivot/Hitbox" method="_on_body_entered"]
+[connection signal="area_entered" from="CoinDetector" to="." method="_on_coin_area_enter"]

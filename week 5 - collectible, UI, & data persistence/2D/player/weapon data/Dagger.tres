@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="WeaponStats" format=3 uid="uid://b1k8tj24dps5i"]
+
+[ext_resource type="Script" uid="uid://b65njmjbqb8yj" path="res://week 4 - enemy AI & navigation/2D/Components/WeaponStats.gd" id="1_4x52q"]
+
+[resource]
+script = ExtResource("1_4x52q")
+damage = 25.0
+attack_cooldown = 0.3
+weapon_name = "Dagger"

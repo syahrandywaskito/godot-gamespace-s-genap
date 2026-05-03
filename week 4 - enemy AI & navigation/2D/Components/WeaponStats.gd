@@ -10,3 +10,5 @@ extends Resource
 @export var attack_cooldown: float = 0.5
 ## Nama tampilan senjata.
 @export var weapon_name: String = "Weapon"
+## gambar untuk keperluan display di UI
+@export var weapon_image: Texture = null

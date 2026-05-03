@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cpty7du5p8pti"]
+
+[ext_resource type="Script" uid="uid://dv18l1mj8k2l5" path="res://week 5 - collectible, UI, & data persistence/2D/coin/Coin.gd" id="1_7mk17"]
+[ext_resource type="Texture2D" uid="uid://6erpp5wjggii" path="res://assets/2d/Scribbles/PNG/Default (64px)/Characters/red_hand.png" id="2_mnpyu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hggww"]
+radius = 16.0
+
+[node name="Coin" type="Area2D" unique_id=218799225 groups=["Coin"]]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_7mk17")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=230440907]
+shape = SubResource("CircleShape2D_hggww")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=537917315]
+z_index = -1
+texture = ExtResource("2_mnpyu")

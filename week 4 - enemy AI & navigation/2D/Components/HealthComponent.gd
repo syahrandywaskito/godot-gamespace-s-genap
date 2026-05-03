@@ -16,6 +16,7 @@ signal died
 
 func _ready() -> void:
 	health_changed.emit(current_health, max_health)
+	SignalBus.health_setup.emit(max_health)
 
 ## Mengurangi kesehatan objek sejumlah [param amount].
 func take_damage(amount: float) -> void:

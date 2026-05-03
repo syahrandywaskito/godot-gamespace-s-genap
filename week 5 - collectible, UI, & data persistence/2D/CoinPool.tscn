@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c7x2k1rgwifwc"]
+
+[ext_resource type="Script" uid="uid://x2au0fswe0kf" path="res://week 5 - collectible, UI, & data persistence/2D/CoinPool.gd" id="1_s4uno"]
+
+[node name="CoinPool" type="Node2D" unique_id=1986439158 groups=["Coin Pool"]]
+script = ExtResource("1_s4uno")

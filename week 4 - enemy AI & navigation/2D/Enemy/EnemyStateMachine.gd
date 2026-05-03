@@ -34,7 +34,6 @@ func _ready() -> void:
 	if patrol_points.is_empty():
 		patrol_points.append(start_position)
 		patrol_points.append(start_position + Vector2(0, 200))
-		#print("patrol point : " + str(patrol_points))
 
 func _physics_process(delta: float) -> void:
 	state_timer -= delta
@@ -103,7 +102,7 @@ func _update_state_logic() -> void:
 			change_state(State.PATROL)
 		elif current_state == State.PATROL and enemy.nav_agent.is_navigation_finished():
 			patrol_index = (patrol_index + 1) % patrol_points.size()
-			print("patrol index : " + str(patrol_points[patrol_index]) + " index : " + str(patrol_index))
+			#print("patrol index : " + str(patrol_points[patrol_index]) + " index : " + str(patrol_index))
 			change_state(State.IDLE)
 
 func _update_sight_cue() -> void:
