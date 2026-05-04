@@ -9,7 +9,9 @@ extends Node
 @export var stamina_timer: Timer = null
 
 func _ready() -> void:
-	current_stamina = clamp(max_stamina, 0, max_stamina)
+	if GameManager.save_game == null:
+		current_stamina = clamp(max_stamina, 0, max_stamina)
+
 	stamina_timer.timeout.connect(_on_stamina_timer_timout)
 
 func get_stamina() -> float:

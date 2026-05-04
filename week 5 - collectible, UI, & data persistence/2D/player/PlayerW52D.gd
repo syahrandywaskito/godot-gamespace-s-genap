@@ -46,7 +46,7 @@ func run() -> void:
 	if Input.is_action_pressed("run") and stamina_component.get_stamina() > 0:
 		stamina_component.use_stamina()
 		move_multiplier = 2
-	elif Input.is_action_just_released("run") or stamina_component.get_stamina() == 0:
+	elif Input.is_action_just_released("run") or stamina_component.get_stamina() >= 0:
 		stamina_component.stamina_refill()
 		move_multiplier = 1
 	
@@ -56,7 +56,7 @@ func run() -> void:
 func take_damage(amount):
 	if health_component and health_component.has_method("take_damage"):
 		health_component.take_damage(amount)
-		SignalBus.health_changed.emit(amount)
+		SignalBus.health_changed.emit(health_component.current_health)
 
 ## signal dari coin detector untuk mendeteksi apakah coin didapat atau tidak 
 func _on_coin_area_enter(area: Area2D) -> void:

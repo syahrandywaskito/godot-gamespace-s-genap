@@ -12,11 +12,14 @@ signal died
 ## health maksimal objek.
 @export var max_health: float = 100.0
 ## health objek saat ini.
-@onready var current_health: float = max_health
+var current_health: float = 100.0
 
 func _ready() -> void:
+	if GameManager.save_game == null:
+		current_health = max_health
+		SignalBus.health_setup.emit(max_health)
+
 	health_changed.emit(current_health, max_health)
-	SignalBus.health_setup.emit(max_health)
 
 ## Mengurangi kesehatan objek sejumlah [param amount].
 func take_damage(amount: float) -> void:

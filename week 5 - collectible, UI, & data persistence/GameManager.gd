@@ -42,7 +42,6 @@ func save() -> void:
 func _collect_save_data() -> void:
 	var player = get_tree().get_first_node_in_group("Player")
 	if player == null:
-		push_error("Player group not found during save")
 		return
 
 	save_game.player_position = player.global_position
@@ -65,10 +64,15 @@ func _collect_save_data() -> void:
 		
 	save_game.killed_enemies = _killed_enemy_names.duplicate()
 
+	# Save posisi semua enemy yang masih hidup
+	save_game.enemy_positions.clear()
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if enemy.name not in _killed_enemy_names:
+			save_game.enemy_positions[enemy.name] = enemy.global_position
+
 func load_save() -> void:
 	var path := _get_save_path()
 	if not ResourceLoader.exists(path):
-		print("No save file found at: ", path)
 		return
 		
 	save_game = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE)
@@ -84,11 +88,11 @@ func _apply_save_data() -> void:
 	
 	var health_comp = player.get_node_or_null("HealthComponent")
 	if health_comp and health_comp.has_method("set_health"):
-		health_comp.set_health(save_game.player_hp)
-		
+		call_deferred("_set_component_value", health_comp, "set_health", save_game.player_hp)
+
 	var stamina_comp = player.get_node_or_null("StaminaComponent")
 	if stamina_comp and stamina_comp.has_method("set_stamina"):
-		stamina_comp.set_stamina(save_game.player_stamina)
+		call_deferred("_set_component_value", stamina_comp, "set_stamina", save_game.player_stamina)
 		
 	var coin_comp = player.get_node_or_null("CoinComponent")
 	if coin_comp and coin_comp.has_method("set_coins"):
@@ -105,6 +109,10 @@ func _apply_save_data() -> void:
 	for enemy in get_tree().get_nodes_in_group("enemy"):
 		if save_game.enemy_positions.has(enemy.name):
 			enemy.global_position = save_game.enemy_positions[enemy.name]
+
+func _set_component_value(component, method_name: String, value) -> void:
+	if component.has_method(method_name):
+		component.call(method_name, value)
 
 func _remove_killed_enemies() -> void:
 	for enemy_name in _killed_enemy_names:
