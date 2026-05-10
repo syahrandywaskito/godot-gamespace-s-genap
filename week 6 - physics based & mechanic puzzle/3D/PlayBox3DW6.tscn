@@ -1,0 +1,219 @@
+[gd_scene format=3 uid="uid://dbadio6kmc2xh"]
+
+[ext_resource type="Texture2D" uid="uid://bfim8c755nq7b" path="res://assets/3d/texture prototype/Green/texture_09.png" id="1_hl6hl"]
+[ext_resource type="Texture2D" uid="uid://byptweak7wedl" path="res://assets/3d/texture prototype/Orange/texture_02.png" id="2_cfm8f"]
+[ext_resource type="PackedScene" uid="uid://dbbgoeptni6bc" path="res://week 2 - interaction system & inventory logic/3d/area detection/Player3DAD.tscn" id="3_c26wl"]
+[ext_resource type="PackedScene" uid="uid://dmvfm14i8d3j7" path="res://week 6 - physics based & mechanic puzzle/3D/physics object/box.tscn" id="6_k6oso"]
+[ext_resource type="PackedScene" uid="uid://dywg62l4ixb1j" path="res://week 6 - physics based & mechanic puzzle/3D/physics object/ball.tscn" id="7_a2far"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_0wegs"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_phyuh"]
+sky_material = SubResource("ProceduralSkyMaterial_0wegs")
+
+[sub_resource type="Environment" id="Environment_gqlp0"]
+background_mode = 2
+sky = SubResource("Sky_phyuh")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j6vco"]
+albedo_color = Color(0.3372549, 0.80784315, 0.19607843, 1)
+albedo_texture = ExtResource("1_hl6hl")
+uv1_scale = Vector3(3, 3, 3)
+uv1_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pwwr3"]
+material = SubResource("StandardMaterial3D_j6vco")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0wegs"]
+size = Vector3(2, 0.001, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tn8sy"]
+albedo_texture = ExtResource("2_cfm8f")
+uv1_triplanar = true
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a2far"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jtkl7"]
+friction = 0.5
+bounce = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fh57a"]
+albedo_color = Color(0, 0.477211, 0.93510866, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_k6oso"]
+material = SubResource("StandardMaterial3D_fh57a")
+
+[sub_resource type="BoxMesh" id="BoxMesh_a2far"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtkl7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_k6oso"]
+size = Vector3(0.7167053, 4.4128723, 2.7731934)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fh57a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k6oso"]
+albedo_color = Color(0.77506864, 0.31531137, 0.3874527, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jtkl7"]
+material = SubResource("StandardMaterial3D_k6oso")
+
+[node name="Playbox" type="Node3D" unique_id=2035705275]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=797173574]
+environment = SubResource("Environment_gqlp0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=958658206]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Graybox" type="Node3D" parent="." unique_id=937247663]
+
+[node name="Floor" type="MeshInstance3D" parent="Graybox" unique_id=1697640992]
+transform = Transform3D(64.12436, 0, 0, 0, 1, 0, 0, 0, 62.830017, 0, 0, 0)
+mesh = SubResource("PlaneMesh_pwwr3")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Graybox/Floor" unique_id=1761749274]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Graybox/Floor/StaticBody3D" unique_id=708740012]
+shape = SubResource("BoxShape3D_0wegs")
+
+[node name="Platform" type="CSGCombiner3D" parent="Graybox" unique_id=1301295026]
+use_collision = true
+
+[node name="Platform" type="CSGBox3D" parent="Graybox/Platform" unique_id=634226484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8641052, 1.5021667, 5.257263)
+size = Vector3(9.518127, 4.0043335, 11.514526)
+material = SubResource("StandardMaterial3D_tn8sy")
+
+[node name="Tangga" type="CSGBox3D" parent="Graybox/Platform" unique_id=886931608]
+transform = Transform3D(1, 0, 0, 0, 0.78220594, 0.6230199, 0, -0.6230199, 0.78220594, 2.8641052, 0.18859781, -2.2644284)
+size = Vector3(9.518127, 2.9890442, 6.8893347)
+material = SubResource("StandardMaterial3D_tn8sy")
+
+[node name="Wall" type="CSGCombiner3D" parent="Graybox" unique_id=1951480045]
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Graybox/Wall" unique_id=2006328908]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78980255, 9.627537, 61.102325)
+size = Vector3(123.41786, 20.082977, 1)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Graybox/Wall" unique_id=872936572]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.78980255, 9.627537, -60.704697)
+size = Vector3(123.41786, 20.082977, 1)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Graybox/Wall" unique_id=1982493444]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -62.064877, 9.627537, 0.15280914)
+size = Vector3(122.73813, 20.082977, 1)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Graybox/Wall" unique_id=806026208]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 60.51939, 9.627537, 0.15280914)
+size = Vector3(122.73813, 20.082977, 1)
+
+[node name="Player" parent="." unique_id=998706289 instance=ExtResource("3_c26wl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.92477)
+collision_layer = 2
+collision_mask = 41
+
+[node name="PhysicsObject" type="Node3D" parent="." unique_id=842263501]
+
+[node name="Box" parent="PhysicsObject" unique_id=1356949613 instance=ExtResource("6_k6oso")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.533918, 3.8802705, 0)
+collision_layer = 8
+collision_mask = 11
+mass = 30.0
+physics_material_override = SubResource("PhysicsMaterial_a2far")
+
+[node name="Ball" parent="PhysicsObject" unique_id=1965921035 instance=ExtResource("7_a2far")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.663311, 2, 0)
+collision_layer = 8
+collision_mask = 11
+mass = 0.2
+physics_material_override = SubResource("PhysicsMaterial_jtkl7")
+gravity_scale = 2.5
+
+[node name="PinJoint" type="Node3D" parent="." unique_id=1534935925]
+
+[node name="PinJoint3D" type="PinJoint3D" parent="PinJoint" unique_id=518259484]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.758973, 5.3044477, 0.03621441)
+node_a = NodePath("../Static/StaticBody3D")
+node_b = NodePath("../Box")
+exclude_nodes_from_collision = false
+
+[node name="Box" parent="PinJoint" unique_id=1930996333 instance=ExtResource("6_k6oso")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.758973, 3.0404873, 0.4849906)
+collision_layer = 32
+collision_mask = 35
+
+[node name="Mesh" parent="PinJoint/Box" index="1" unique_id=517692189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.43727767)
+mesh = SubResource("BoxMesh_k6oso")
+
+[node name="Static" type="MeshInstance3D" parent="PinJoint" unique_id=1431170949]
+transform = Transform3D(4.611556, 0, 0, 0, 0.4576304, 0, 0, 0, 0.47995692, 14.47589, 5.4333553, 0)
+mesh = SubResource("BoxMesh_a2far")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="PinJoint/Static" unique_id=2136088830]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PinJoint/Static/StaticBody3D" unique_id=1388305591]
+shape = SubResource("BoxShape3D_jtkl7")
+debug_color = Color(0.92941177, 0, 0.6666667, 1)
+
+[node name="HingeJoint" type="Node3D" parent="." unique_id=791482482]
+
+[node name="HingeJoint3D" type="HingeJoint3D" parent="HingeJoint" unique_id=698710321]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 23.499365, -0.0009099543, -1.0855463)
+node_b = NodePath("../StaticBody3D")
+angular_limit/enable = true
+
+[node name="StaticBody3D" type="RigidBody3D" parent="HingeJoint" unique_id=92065159]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.512077, 2.1609116, 0.4371078)
+collision_layer = 32
+collision_mask = 35
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeJoint/StaticBody3D" unique_id=1979943580]
+transform = Transform3D(0.9999998, 0, 0, 0, 0.99999976, 0, 0, 0, 1, 0.0017242432, 0.1308136, -0.011108398)
+shape = SubResource("BoxShape3D_k6oso")
+debug_color = Color(0.5921569, 0.7764706, 0, 1)
+
+[node name="Door" type="MeshInstance3D" parent="HingeJoint/StaticBody3D" unique_id=1687779619]
+transform = Transform3D(0.6401662, 0, 0, 0, 4.657779, 0, 0, 0, 2.7204354, 0, 0, 0)
+mesh = SubResource("BoxMesh_fh57a")
+
+[node name="SliderJoint" type="Node3D" parent="." unique_id=140405096]
+
+[node name="SliderJoint3D" type="SliderJoint3D" parent="SliderJoint" unique_id=1031640417]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 14.460392, 8.944813, -17.797247)
+node_a = NodePath("../Static2/StaticBody3D")
+node_b = NodePath("../Box2")
+exclude_nodes_from_collision = false
+linear_limit/upper_distance = 4.0
+
+[node name="Box2" parent="SliderJoint" unique_id=776806201 instance=ExtResource("6_k6oso")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.758973, 9.253987, -17.389418)
+collision_layer = 32
+collision_mask = 35
+
+[node name="CollisionShape3D" parent="SliderJoint/Box2" index="0" unique_id=1397111871]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.22393131, 0, -0.39335632)
+
+[node name="Mesh" parent="SliderJoint/Box2" index="1" unique_id=517692189]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24011517, 0, -0.39381027)
+mesh = SubResource("BoxMesh_jtkl7")
+
+[node name="Static2" type="MeshInstance3D" parent="SliderJoint" unique_id=1667846206]
+transform = Transform3D(4.611556, 0, 0, 0, 0.4576304, 0, 0, 0, 0.47995692, 14.47589, 10.153247, -17.796793)
+mesh = SubResource("BoxMesh_a2far")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SliderJoint/Static2" unique_id=1812684693]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SliderJoint/Static2/StaticBody3D" unique_id=1960575844]
+shape = SubResource("BoxShape3D_jtkl7")
+debug_color = Color(0.92941177, 0, 0.6666667, 1)
+
+[editable path="PinJoint/Box"]
+[editable path="SliderJoint/Box2"]

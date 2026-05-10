@@ -32,6 +32,7 @@ Player=""
 Enemy=""
 Coin=""
 "Coin Pool"=""
+Physics=""
 
 [input]
 
@@ -101,6 +102,8 @@ toggle_weapon_selector={
 2d_physics/layer_4="PROJECTILE"
 3d_physics/layer_4="COLLECTIBLES"
 2d_physics/layer_5="COLLECTIBLES"
+2d_physics/layer_6="PHYSICS"
+3d_physics/layer_6="PHYSICS"
 
 [physics]
 

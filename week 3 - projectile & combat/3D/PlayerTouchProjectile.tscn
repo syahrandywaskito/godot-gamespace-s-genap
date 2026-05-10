@@ -22,8 +22,8 @@ material = SubResource("StandardMaterial3D_qceqn")
 [sub_resource type="SphereShape3D" id="SphereShape3D_dpdlm"]
 radius = 2.0855255
 
-[node name="Player" type="CharacterBody3D" unique_id=998706289]
-script = ExtResource("1_2icc6")
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_h3lml")
 move_speed = 16.0
 accelaration = 16.0
 rotation_speed = 12.0
@@ -31,39 +31,39 @@ jump_force = 20.0
 coyote_time = 0.2
 jump_buffer_time = 0.1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=726218117]
+[node name="PlayerCollision" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_7cat8")
 
-[node name="Visual" type="MeshInstance3D" parent="." unique_id=793516700]
+[node name="Visual" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_7cat8")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual" unique_id=288349070]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visual"]
 transform = Transform3D(0.5402369, 0, 0, 0, 0.263534, 0, 0, 0, 0.17440224, 0, 0.52518785, 0.44846922)
 mesh = SubResource("BoxMesh_ayh2c")
 
-[node name="Camera Pivot" type="Node3D" parent="." unique_id=1908881885]
+[node name="Camera Pivot" type="Node3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 0.8660254, -0.5, 0, 0.5, 0.8660254, 0, 1.6786009, 0)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="Camera Pivot" unique_id=361525054]
+[node name="SpringArm3D" type="SpringArm3D" parent="Camera Pivot"]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 shape = SubResource("SphereShape3D_kcij0")
 spring_length = 8.0
 
-[node name="Camera" type="Camera3D" parent="Camera Pivot/SpringArm3D" unique_id=228112512]
+[node name="Camera" type="Camera3D" parent="Camera Pivot/SpringArm3D"]
 unique_name_in_owner = true
 
-[node name="TPPCameraController" type="Node" parent="." unique_id=1523885514 node_paths=PackedStringArray("camera_pivot", "camera")]
-script = ExtResource("2_ym6ig")
+[node name="TPPCameraController" type="Node" parent="." node_paths=PackedStringArray("camera_pivot", "camera")]
+script = ExtResource("2_1g30k")
 camera_pivot = NodePath("../Camera Pivot")
 camera = NodePath("../Camera Pivot/SpringArm3D/Camera")
 metadata/_custom_type_script = "uid://bltc6grmheq3j"
 
-[node name="AreaDetecttion" type="Area3D" parent="." unique_id=462519515]
-script = ExtResource("3_vw5ta")
+[node name="AreaDetection" type="Area3D" parent="."]
+script = ExtResource("3_p134l")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AreaDetecttion" unique_id=1833644625]
+[node name="AreaCollision" type="CollisionShape3D" parent="AreaDetection"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4415164, 0)
 shape = SubResource("SphereShape3D_dpdlm")

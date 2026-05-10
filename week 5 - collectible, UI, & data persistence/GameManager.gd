@@ -105,7 +105,7 @@ func _apply_save_data() -> void:
 	_killed_enemy_names = save_game.killed_enemies.duplicate()
 	_remove_killed_enemies()
 	
-	# Restore posisi enemy yang masih hidup
+	# Restore posisi enemy yang masih hidupa
 	for enemy in get_tree().get_nodes_in_group("enemy"):
 		if save_game.enemy_positions.has(enemy.name):
 			enemy.global_position = save_game.enemy_positions[enemy.name]
@@ -126,5 +126,5 @@ func quit_game() -> void:
 	get_tree().quit()
 
 static func _get_save_path() -> String:
-	var extension := ".tres" if OS.is_debug_build() else ".res"
+	var extension := ".res" if OS.is_debug_build() else ".tres"
 	return "user://save_game" + extension

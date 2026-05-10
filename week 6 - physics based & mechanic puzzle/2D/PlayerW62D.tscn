@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://cc8upougdvkyx"]
+
+[ext_resource type="Script" uid="uid://c50me1tsasdl0" path="res://week 1 - movement & feel/2d/Player2D.gd" id="1_g5qah"]
+[ext_resource type="Texture2D" uid="uid://bmywpyxw3hjgj" path="res://assets/2d/platformer pack/Characters/character_purple_hit.svg" id="2_8kvdr"]
+[ext_resource type="Texture2D" uid="uid://vs0rvrfwverk" path="res://assets/2d/platformer pack/Characters/character_purple_front.svg" id="3_8octd"]
+[ext_resource type="Texture2D" uid="uid://fo5cpby21s0v" path="res://assets/2d/platformer pack/Characters/character_purple_jump.svg" id="4_f8mw1"]
+[ext_resource type="Texture2D" uid="uid://chawdvikvpue4" path="res://assets/2d/platformer pack/Characters/character_purple_idle.svg" id="5_r1jpo"]
+[ext_resource type="Texture2D" uid="uid://chydx0ntk35a7" path="res://assets/2d/platformer pack/Characters/character_purple_walk_a.svg" id="6_wmakk"]
+[ext_resource type="Texture2D" uid="uid://14kr5erln3bt" path="res://assets/2d/platformer pack/Characters/character_purple_walk_b.svg" id="7_ygbxa"]
+[ext_resource type="Script" uid="uid://b41ufhhpcleli" path="res://week 3 - projectile & combat/2D/ProjectileSpawner2D.gd" id="8_mcp1h"]
+[ext_resource type="PackedScene" uid="uid://cqswaowmfvd0i" path="res://week 3 - projectile & combat/2D/PProjectile2D.tscn" id="9_onkif"]
+[ext_resource type="Script" uid="uid://dwp5sr60nn13e" path="res://week 6 - physics based & mechanic puzzle/2D/PhysicsDetector.gd" id="10_ljs28"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i6eer"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8kvdr")
+}],
+"loop": true,
+"name": &"Fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_8octd")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_f8mw1")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_r1jpo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wmakk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ygbxa")
+}],
+"loop": true,
+"name": &"Move",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_li6t2"]
+radius = 40.0
+height = 92.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uar7n"]
+size = Vector2(36, 61)
+
+[node name="Player" type="CharacterBody2D" unique_id=995696200 node_paths=PackedStringArray("animation")]
+collision_layer = 2
+script = ExtResource("1_g5qah")
+animation = NodePath("Animation")
+projectile_speed = 1200.0
+projectile_damage = 50.0
+move_speed = 320.0
+jump_force = 500.0
+friction = 80.0
+acceleration = 10.0
+gravity_mult = 1.0
+speed_mult = 1.0
+jump_mult = 1.0
+coyote_time = 0.2
+jump_buffer = 0.1
+
+[node name="Animation" type="AnimatedSprite2D" parent="." unique_id=42108993]
+position = Vector2(0, -64)
+sprite_frames = SubResource("SpriteFrames_i6eer")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1992398780]
+position = Vector2(0, -46)
+shape = SubResource("CapsuleShape2D_li6t2")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=411604723]
+offset = Vector2(0, -120)
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="ProjectileSpawner2D" type="Node" parent="." unique_id=1844215442 node_paths=PackedStringArray("player", "marker", "titik_spawn")]
+script = ExtResource("8_mcp1h")
+player = NodePath("..")
+marker = NodePath("../Marker2D")
+projectile_scene = ExtResource("9_onkif")
+titik_spawn = NodePath("../TitikSpawn")
+metadata/_custom_type_script = "uid://b41ufhhpcleli"
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=965447902]
+position = Vector2(50, -46)
+
+[node name="TitikSpawn" type="Node2D" parent="." unique_id=552613593]
+position = Vector2(67, -46)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=754173754]
+collision_layer = 2
+collision_mask = 33
+script = ExtResource("10_ljs28")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1971001293]
+position = Vector2(0, -11.5)
+shape = SubResource("RectangleShape2D_uar7n")
+debug_color = Color(0.9354273, 1.790464e-05, 0.63853014, 0.41960785)

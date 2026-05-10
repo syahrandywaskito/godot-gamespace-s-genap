@@ -13,6 +13,9 @@ extends CharacterBody3D
 @export var coyote_time: float = 0
 @export var jump_buffer_time: float = 0
 
+@export_group("Physics")
+@export var push_force: float = 4.0
+
 @onready var cam_controller: TPPCameraController = $TPPCameraController
 @onready var visual: MeshInstance3D = $Visual
 
@@ -55,12 +58,22 @@ func _physics_process(delta: float) -> void:
 		_coyote_timer = 0
 	
 	move_and_slide()
+	impulse()
 	
 	if move_direction.length() > 0.2:
 		_last_movement_direction = move_direction
 	
 	var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
 	visual.global_rotation.y = lerp_angle(visual.rotation.y, target_angle, rotation_speed * delta)
+
+func impulse() -> void:
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		
+		if collider is RigidBody3D:
+			var direction = -collision.get_normal()
+			collider.apply_central_impulse(direction * push_force)
 
 func take_damage(damage: float) -> void:
 	_current_health -= damage

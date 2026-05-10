@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://dbbgoeptni6bc"]
+[gd_scene format=3 uid="uid://dfsmuj81ike5l"]
 
-[ext_resource type="Script" uid="uid://calijbykw87ds" path="res://week 1 - movement & feel/3d/Player3D.gd" id="1_pne64"]
-[ext_resource type="Script" uid="uid://bltc6grmheq3j" path="res://week 1 - movement & feel/3d/TPPCameraController.gd" id="2_3yslf"]
-[ext_resource type="Script" uid="uid://d2o1f1lohng4b" path="res://week 2 - interaction system & inventory logic/3d/area detection/AreaDetection3D.gd" id="3_3pbil"]
+[ext_resource type="Script" uid="uid://calijbykw87ds" path="res://week 1 - movement & feel/3d/Player3D.gd" id="1_ap4io"]
+[ext_resource type="Script" uid="uid://bltc6grmheq3j" path="res://week 1 - movement & feel/3d/TPPCameraController.gd" id="2_atu8t"]
+[ext_resource type="Script" uid="uid://d2o1f1lohng4b" path="res://week 2 - interaction system & inventory logic/3d/area detection/AreaDetection3D.gd" id="3_ul3ik"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7cat8"]
 
@@ -23,7 +23,7 @@ material = SubResource("StandardMaterial3D_qceqn")
 radius = 2.0855255
 
 [node name="Player" type="CharacterBody3D"]
-script = ExtResource("1_pne64")
+script = ExtResource("1_ap4io")
 move_speed = 16.0
 accelaration = 16.0
 rotation_speed = 12.0
@@ -56,13 +56,13 @@ spring_length = 8.0
 unique_name_in_owner = true
 
 [node name="TPPCameraController" type="Node" parent="." node_paths=PackedStringArray("camera_pivot", "camera")]
-script = ExtResource("2_3yslf")
+script = ExtResource("2_atu8t")
 camera_pivot = NodePath("../Camera Pivot")
 camera = NodePath("../Camera Pivot/SpringArm3D/Camera")
 metadata/_custom_type_script = "uid://bltc6grmheq3j"
 
 [node name="AreaDetection" type="Area3D" parent="."]
-script = ExtResource("3_3pbil")
+script = ExtResource("3_ul3ik")
 
 [node name="AreaCollision" type="CollisionShape3D" parent="AreaDetection"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4415164, 0)
