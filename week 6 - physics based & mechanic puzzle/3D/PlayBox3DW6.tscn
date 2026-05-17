@@ -35,11 +35,11 @@ size = Vector3(2, 0.001, 2)
 albedo_texture = ExtResource("2_cfm8f")
 uv1_triplanar = true
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_a2far"]
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fh57a"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jtkl7"]
 friction = 0.5
-bounce = 20.0
+bounce = 10.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fh57a"]
 albedo_color = Color(0, 0.477211, 0.93510866, 1)
@@ -121,18 +121,19 @@ collision_mask = 41
 
 [node name="PhysicsObject" type="Node3D" parent="." unique_id=842263501]
 
-[node name="Box" parent="PhysicsObject" unique_id=1356949613 instance=ExtResource("6_k6oso")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.533918, 3.8802705, 0)
+[node name="Box" parent="PhysicsObject" unique_id=1356949613 groups=["Pushable"] instance=ExtResource("6_k6oso")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.533918, 15.195002, 0)
 collision_layer = 8
 collision_mask = 11
-mass = 30.0
-physics_material_override = SubResource("PhysicsMaterial_a2far")
+mass = 1.0
+physics_material_override = SubResource("PhysicsMaterial_fh57a")
+gravity_scale = 5.0
 
-[node name="Ball" parent="PhysicsObject" unique_id=1965921035 instance=ExtResource("7_a2far")]
+[node name="Ball" parent="PhysicsObject" unique_id=1965921035 groups=["Kickable"] instance=ExtResource("7_a2far")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.663311, 2, 0)
 collision_layer = 8
 collision_mask = 11
-mass = 0.2
+mass = 0.001
 physics_material_override = SubResource("PhysicsMaterial_jtkl7")
 gravity_scale = 2.5
 
@@ -144,7 +145,7 @@ node_a = NodePath("../Static/StaticBody3D")
 node_b = NodePath("../Box")
 exclude_nodes_from_collision = false
 
-[node name="Box" parent="PinJoint" unique_id=1930996333 instance=ExtResource("6_k6oso")]
+[node name="Box" parent="PinJoint" unique_id=1930996333 groups=["Kickable"] instance=ExtResource("6_k6oso")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.758973, 3.0404873, 0.4849906)
 collision_layer = 32
 collision_mask = 35
@@ -169,8 +170,9 @@ debug_color = Color(0.92941177, 0, 0.6666667, 1)
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 23.499365, -0.0009099543, -1.0855463)
 node_b = NodePath("../StaticBody3D")
 angular_limit/enable = true
+angular_limit/lower = 0.0
 
-[node name="StaticBody3D" type="RigidBody3D" parent="HingeJoint" unique_id=92065159]
+[node name="StaticBody3D" type="RigidBody3D" parent="HingeJoint" unique_id=92065159 groups=["Kickable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.512077, 2.1609116, 0.4371078)
 collision_layer = 32
 collision_mask = 35

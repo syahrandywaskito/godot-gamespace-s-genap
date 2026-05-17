@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="GridMapTileEffectDatabase" format=3 uid="uid://dom5ups3o22cx"]
+
+[ext_resource type="Script" uid="uid://c1g1g2ad5dysq" path="res://week 7 - environtmental mechanic/3D/player/GridMapTileEffectDatabase.gd" id="1_n4g1p"]
+[ext_resource type="Script" uid="uid://ch6x2k87rxcvl" path="res://week 7 - environtmental mechanic/3D/player/GridMapTileEffect.gd" id="2_3qjr8"]
+
+[sub_resource type="Resource" id="Resource_dirt"]
+script = ExtResource("2_3qjr8")
+tile_name = &"dirt"
+effect_type = 1
+speed_multiplier = 0.65
+
+[sub_resource type="Resource" id="Resource_trap"]
+script = ExtResource("2_3qjr8")
+tile_name = &"trap"
+effect_type = 2
+value_per_tick = 10.0
+
+[sub_resource type="Resource" id="Resource_fo88t"]
+script = ExtResource("2_3qjr8")
+tile_name = &"rocks"
+effect_type = 1
+speed_multiplier = 2.0
+
+[resource]
+script = ExtResource("1_n4g1p")
+effects = Array[ExtResource("2_3qjr8")]([SubResource("Resource_dirt"), SubResource("Resource_trap"), SubResource("Resource_fo88t")])

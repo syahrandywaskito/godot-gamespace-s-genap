@@ -911,7 +911,7 @@ position = Vector2(-257, 379)
 texture = ExtResource("6_3jngj")
 
 [node name="PinJoint2D" type="PinJoint2D" parent="PinJoint" unique_id=1157605401]
-position = Vector2(-257, 280)
+position = Vector2(-257, 191)
 node_a = NodePath("../StaticBox")
 node_b = NodePath("../Box5")
 softness = 3.0
@@ -934,7 +934,7 @@ texture = ExtResource("7_2wg3m")
 
 [node name="GrooveJoint2D" type="GrooveJoint2D" parent="GrooveJoint" unique_id=585416112]
 position = Vector2(-220, 193)
-rotation = -1.2723451
+rotation = -1.4643313
 node_a = NodePath("../../PinJoint/StaticBox")
 node_b = NodePath("../Box6")
 length = 1573.0
@@ -944,6 +944,8 @@ initial_offset = 36.0
 
 [node name="BoxSpring1" parent="SpringJoint" unique_id=1683713444 instance=ExtResource("4_yk203")]
 position = Vector2(-138, 481)
+collision_layer = 1
+collision_mask = 1
 lock_rotation = true
 
 [node name="Sprite2D" parent="SpringJoint/BoxSpring1" index="0" unique_id=1060516639]

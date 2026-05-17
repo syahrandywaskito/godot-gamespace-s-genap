@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://c5b0qje4bqypj"]
+
+[ext_resource type="Texture2D" uid="uid://cgq4g2jduj50y" path="res://assets/2d/Top Down Tanks/PNG/Bullets/bulletRedSilver_outline.png" id="1_jw14r"]
+[ext_resource type="Script" uid="uid://cshmbkr7b3x2b" path="res://week 7 - environtmental mechanic/2D/tank/TankBullet.gd" id="2_6u4g2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qvj5f"]
+size = Vector2(20, 34)
+
+[node name="TankBullet" type="Area2D" unique_id=835908517]
+script = ExtResource("2_6u4g2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1940348014]
+texture = ExtResource("1_jw14r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1690536248]
+shape = SubResource("RectangleShape2D_qvj5f")

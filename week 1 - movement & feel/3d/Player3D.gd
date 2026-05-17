@@ -17,13 +17,14 @@ extends CharacterBody3D
 @export var push_force: float = 4.0
 
 @onready var cam_controller: TPPCameraController = $TPPCameraController
-@onready var visual: MeshInstance3D = $Visual
+@onready var visual: Node3D = $Visual
 
 var _last_movement_direction: Vector3 = Vector3.ZERO
 var _gravity: float = -45
 var _coyote_timer: float = 0
 var _jump_buffer_timer: float = 0
 var _current_health: float = 0
+var _external_speed_multiplier: float = 1.0
 
 func get_current_health() -> float:
 	return _current_health
@@ -44,7 +45,7 @@ func _physics_process(delta: float) -> void:
 	
 	var velocity_y = velocity.y
 	velocity.y = 0.0
-	velocity = velocity.move_toward(move_direction * move_speed, accelaration * delta)
+	velocity = move_direction * get_effective_move_speed()
 	velocity.y = velocity_y + _gravity * delta
 	
 	if Input.is_action_just_pressed("jump"):
@@ -58,7 +59,7 @@ func _physics_process(delta: float) -> void:
 		_coyote_timer = 0
 	
 	move_and_slide()
-	impulse()
+	force_impulse()
 	
 	if move_direction.length() > 0.2:
 		_last_movement_direction = move_direction
@@ -66,14 +67,31 @@ func _physics_process(delta: float) -> void:
 	var target_angle := Vector3.BACK.signed_angle_to(_last_movement_direction, Vector3.UP)
 	visual.global_rotation.y = lerp_angle(visual.rotation.y, target_angle, rotation_speed * delta)
 
-func impulse() -> void:
+func force_impulse() -> void:
 	for i in get_slide_collision_count():
 		var collision = get_slide_collision(i)
 		var collider = collision.get_collider()
 		
 		if collider is RigidBody3D:
 			var direction = -collision.get_normal()
-			collider.apply_central_impulse(direction * push_force)
+			
+			if collider.is_in_group("Pushable"):
+				collider.apply_central_force(direction * push_force)
+			
+			if collider.is_in_group("Kickable"):
+				collider.apply_central_impulse(direction * push_force)
 
 func take_damage(damage: float) -> void:
 	_current_health -= damage
+
+
+func heal(amount: float) -> void:
+	_current_health = min(_current_health + amount, max_health)
+
+
+func set_external_speed_multiplier(multiplier: float) -> void:
+	_external_speed_multiplier = max(multiplier, 0.0)
+
+
+func get_effective_move_speed() -> float:
+	return move_speed * _external_speed_multiplier

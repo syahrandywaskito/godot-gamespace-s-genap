@@ -1,0 +1,19 @@
+[gd_resource type="TileSet" format=3 uid="uid://db10kcncp5sxq"]
+
+[ext_resource type="Texture2D" uid="uid://bxtyff8n6cdui" path="res://week 7 - environtmental mechanic/2D/tilemap_envi_tank.png" id="1_7flnu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cowxw"]
+texture = ExtResource("1_7flnu")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/custom_data_0 = "dirt"
+1:0/0 = 0
+1:0/0/custom_data_0 = "grass"
+2:0/0 = 0
+2:0/0/custom_data_0 = "sand"
+
+[resource]
+tile_size = Vector2i(128, 128)
+custom_data_layer_0/name = "surface"
+custom_data_layer_0/type = 4
+sources/0 = SubResource("TileSetAtlasSource_cowxw")

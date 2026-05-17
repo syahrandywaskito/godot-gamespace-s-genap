@@ -33,6 +33,10 @@ Enemy=""
 Coin=""
 "Coin Pool"=""
 Physics=""
+Pushable=""
+Kickable=""
+Gridmap=""
+Tilemaps=""
 
 [input]
 
@@ -112,3 +116,4 @@ toggle_weapon_selector={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.40210944, 0.3569129, 0.9412935, 1)
