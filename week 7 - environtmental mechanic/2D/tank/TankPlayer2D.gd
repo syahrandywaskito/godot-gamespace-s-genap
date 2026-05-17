@@ -6,6 +6,8 @@ class_name TankPlayer2D
 @export var bullet_scene: PackedScene
 @export var shoot_cooldown: float = 0.2
 @export var muzzle_distance: float = 54.0
+@export var knockback_force: float = 300.0
+@export var knockback_friction: float = 800.0
 
 @onready var cannon: Node2D = $Cannon
 
@@ -13,6 +15,7 @@ var _pressed_move_directions: Array[Vector2] = []
 var _shoot_cooldown_left: float = 0.0
 var _shoot_requested: bool = false
 var _external_speed_multiplier: float = 1.0
+var _knockback_velocity: Vector2 = Vector2.ZERO
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -32,14 +35,15 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	_shoot_cooldown_left = max(_shoot_cooldown_left - delta, 0.0)
+	
+	_knockback_velocity = _knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
 
 	var move_direction := _get_move_direction()
-	if move_direction == Vector2.ZERO:
-		velocity = Vector2.ZERO
-	else:
-		velocity = move_direction * get_effective_move_speed()
+	if move_direction != Vector2.ZERO:
 		var target_rotation := move_direction.angle() + PI * 0.5
 		rotation = lerp_angle(rotation, target_rotation, min(rotation_lerp_speed * delta, 1.0))
+		
+	velocity = (move_direction * get_effective_move_speed()) + _knockback_velocity
 
 	move_and_slide()
 	_handle_shooting()
@@ -79,6 +83,7 @@ func _handle_shooting() -> void:
 		spawn_parent = get_parent()
 	spawn_parent.add_child(bullet)
 
+	_knockback_velocity = -bullet_direction * knockback_force
 	_shoot_cooldown_left = shoot_cooldown
 
 
