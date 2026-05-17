@@ -113,10 +113,16 @@ Menggunakan `Area2D` sebagai sensor untuk mendeteksi objek dengan group tertentu
 
 ## 7. Environmental Mechanic
 
-### TileMapLayer Custom Data (2D)
-Memanfaatkan fitur **Custom Data Layers** pada `TileSet` untuk menyuntikkan informasi metadata ke tiap tile (seperti tipe permukaan: "grass", "sand", "dirt").
-- **TilemapController**: Script yang membaca posisi player dan mengambil data tile di bawahnya menggunakan `local_to_map()`.
-- **Surface Effects**: Mengubah kecepatan gerak (`speed_multiplier`) secara real-time berdasarkan jenis lantai yang dipijak.
+### TileMapLayer Surface Detection (2D)
+Implementasi interaksi karakter dengan lingkungan berbasis tile menggunakan node **TileMapLayer**.
+- **Custom Data Layers**: Menggunakan metadata pada `TileSet` untuk menyimpan tipe permukaan (misal: "grass", "sand", "dirt").
+- **Dynamic Speed Modifier**: Script `TilemapController` mendeteksi posisi player, mengonversi koordinat global ke koordinat map via `local_to_map()`, dan mengambil data permukaan untuk mengubah `speed_multiplier` tank secara real-time.
+
+### GridMap & Raycast Detection (3D)
+Penerapan mekanik lingkungan pada dunia 3D menggunakan **GridMap**.
+- **Surface Database**: Sistem berbasis `Resource` untuk memetakan ID mesh pada GridMap ke efek tertentu.
+- **Raycast Probing**: Menggunakan `RayCast3D` di kaki pemain untuk mendeteksi ID tile yang sedang dipijak.
+- **Environmental Hazard**: Implementasi area berbahaya yang memberikan efek *Damage over Time* (lava) atau zona yang memperlambat gerakan (lumpur).
 
 ---
 
