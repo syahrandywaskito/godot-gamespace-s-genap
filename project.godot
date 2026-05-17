@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 InventoryManager="*uid://b3ca5o41eh74g"
 SignalBus="*uid://1l7torykk1j0"
 GameManager="*uid://bgcumjkbn6ohl"
+SoundPool="*uid://ynin0cgg2p8y"
 
 [display]
 

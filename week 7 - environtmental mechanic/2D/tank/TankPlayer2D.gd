@@ -10,12 +10,20 @@ class_name TankPlayer2D
 @export var knockback_friction: float = 800.0
 
 @onready var cannon: Node2D = $Cannon
+@onready var explode: GPUParticles2D = $Cannon/Explode
+@onready var cam_shake: CamShake = $CamShake
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite: Sprite2D = $Sprite2D
+
+const shoot_audio = preload("uid://b3by2q532iko1")
 
 var _pressed_move_directions: Array[Vector2] = []
 var _shoot_cooldown_left: float = 0.0
 var _shoot_requested: bool = false
 var _external_speed_multiplier: float = 1.0
+var _boost_multiplier: float = 1.0
 var _knockback_velocity: Vector2 = Vector2.ZERO
+var _scale_tween: Tween
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -60,6 +68,10 @@ func _handle_shooting() -> void:
 	_shoot_requested = false
 
 	if InputMap.has_action("fire") and Input.is_action_just_pressed("fire"):
+		explode_particle()
+		play_Squish()
+		cam_shake.trigger_shake(17.0, 10)
+		SoundPool.play_sound(shoot_audio, 2.0, 1.0, true)
 		wants_fire = true
 
 	if not wants_fire or _shoot_cooldown_left > 0.0 or bullet_scene == null:
@@ -86,16 +98,39 @@ func _handle_shooting() -> void:
 	_knockback_velocity = -bullet_direction * knockback_force
 	_shoot_cooldown_left = shoot_cooldown
 
+func explode_particle() -> void:
+	explode.emitting = false
+	explode.restart()
+	explode.emitting = true
+
+func play_Squish() -> void:
+	if animation_player.is_playing():
+		animation_player.stop()
+	
+	animation_player.play(&"squish")
 
 func _set_move_direction_pressed(direction: Vector2, pressed: bool) -> void:
 	_pressed_move_directions.erase(direction)
 	if pressed:
 		_pressed_move_directions.append(direction)
 
-
 func set_external_speed_multiplier(multiplier: float) -> void:
 	_external_speed_multiplier = max(multiplier, 0.0)
 
+func set_boost_multiplier(multiplier: float) -> void:
+	if is_equal_approx(multiplier, _boost_multiplier):
+		return
+		
+	_boost_multiplier = max(multiplier, 1.0)
+	
+	if _scale_tween and _scale_tween.is_valid():
+		_scale_tween.kill()
+		
+	_scale_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT).set_parallel(true)
+	var target_scale_y = 1.25 if _boost_multiplier > 1.0 else 1.0
+	var target_scale_x = 0.8 if _boost_multiplier > 1.0 else 1.0
+	_scale_tween.tween_property(sprite, "scale:y", target_scale_y, 0.2)
+	_scale_tween.tween_property(sprite, "scale:x", target_scale_x, 0.2)
 
 func get_effective_move_speed() -> float:
-	return move_speed * _external_speed_multiplier
+	return move_speed * _external_speed_multiplier * _boost_multiplier

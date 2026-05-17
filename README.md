@@ -118,8 +118,23 @@ Memanfaatkan fitur **Custom Data Layers** pada `TileSet` untuk menyuntikkan info
 - **TilemapController**: Script yang membaca posisi player dan mengambil data tile di bawahnya menggunakan `local_to_map()`.
 - **Surface Effects**: Mengubah kecepatan gerak (`speed_multiplier`) secara real-time berdasarkan jenis lantai yang dipijak.
 
-### GridMap Surface Effects (3D)
-Penerapan sistem efek permukaan pada lingkungan 3D menggunakan `GridMap` dan `RayCast3D`.
-- **Surface Database**: Menggunakan `Resource` sebagai database untuk memetakan ID tile GridMap ke efek tertentu (Damage, Heal, Speed).
-- **Periodic Effects**: Implementasi *Damage over Time* (DoT) atau penyembuhan berkala saat pemain berdiri di atas tile berbahaya (lava/racun) atau zona regenerasi.
-- **Animation Integration**: Mengatur transisi animasi pemain agar sesuai dengan kecepatan atau status efek yang sedang aktif.
+---
+
+## 8. Finishing & Juice
+
+### Global SoundPool (Object Pooling)
+Sistem manajemen audio terpusat menggunakan teknik **Object Pooling** untuk mengoptimalkan performa dan mendukung overlapping sound.
+- **Node Reuse**: Menggunakan pool `AudioStreamPlayer` yang aktif dan tidak aktif untuk menghindari *stutter* akibat instansiasi node berulang.
+- **Modular Playback**: Mendukung pengaturan dinamis untuk `volume_db`, `pitch_scale`, dan output `AudioBus`.
+- **Pitch Randomization**: Fitur variasi pitch otomatis (±15%) untuk mencegah efek suara terasa monoton saat dipicu berulang kali (seperti tembakan atau ledakan).
+
+### Boost Mechanic & Visual Feedback
+Implementasi sistem peningkatan kecepatan sementara dengan konsumsi sumber daya dan umpan balik visual yang responsif.
+- **Fuel Management**: `BoostController` mengelola kapasitas bahan bakar, laju konsumsi, dan regenerasi otomatis saat tidak digunakan.
+- **UI Synchronization**: Menghubungkan data internal ke `ProgressBar` pada HUD melalui `SignalBus` dengan update yang dihaluskan menggunakan `Tween`.
+- **Squash & Stretch (Juice)**: Memberikan efek visual dinamis pada sprite tank (Scale Y: 1.5, Scale X: 0.75) saat boost aktif untuk memperkuat sensasi kecepatan.
+
+### Game Feel & Polish
+- **Camera Shake**: Integrasi guncangan kamera saat aksi kritikal (menembak/ledakan) untuk meningkatkan impak permainan.
+- **Tween-Based UI**: Menggunakan interpolasi `Tween` (SINE/EASE_OUT) untuk transisi nilai UI agar terasa lebih organik dan modern.
+- **Particle Integration**: Penggunaan `GPUParticles2D` untuk efek muzzle flash dan ledakan yang terintegrasi dengan logika pertempuran.

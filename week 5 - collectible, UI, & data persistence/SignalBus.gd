@@ -23,4 +23,10 @@ signal weapon_changed(weapon_stats: WeaponStats)
 @warning_ignore("unused_signal")
 signal open_item_selector
 
+@warning_ignore("unused_signal")
+signal boost_setup(max_boost: float)
+
+@warning_ignore("unused_signal")
+signal boost_changed(current_boost: float)
+
 # ~

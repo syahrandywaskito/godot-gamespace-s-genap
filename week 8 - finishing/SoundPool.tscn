@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ynin0cgg2p8y"]
+
+[ext_resource type="Script" uid="uid://mctiymc4x82h" path="res://week 8 - finishing/SoundPool.gd" id="1_3bqxk"]
+
+[node name="SoundPool" type="Node" unique_id=2014018079]
+script = ExtResource("1_3bqxk")
