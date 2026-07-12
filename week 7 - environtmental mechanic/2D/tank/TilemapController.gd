@@ -39,7 +39,11 @@ func _apply_current_tile_effect() -> void:
 	_last_multiplier = multiplier
 
 func _resolve_multiplier_from_tilemap() -> float:
-	var cell := _tilemap_layer.local_to_map(_tilemap_layer.to_local(_player.global_position))
+	var cell := _tilemap_layer.local_to_map(_player.global_position)
+	
+	print("local to tilemap : " + str(_tilemap_layer.to_local(_player.global_position)))
+	print("global pos player : " + str(_player.global_position))
+	
 	var tile_data := _tilemap_layer.get_cell_tile_data(cell)
 	if tile_data == null:
 		return grass_multiplier 

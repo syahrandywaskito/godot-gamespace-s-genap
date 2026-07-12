@@ -43,16 +43,15 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	_shoot_cooldown_left = max(_shoot_cooldown_left - delta, 0.0)
-	
 	_knockback_velocity = _knockback_velocity.move_toward(Vector2.ZERO, knockback_friction * delta)
-
+	
 	var move_direction := _get_move_direction()
 	if move_direction != Vector2.ZERO:
 		var target_rotation := move_direction.angle() + PI * 0.5
 		rotation = lerp_angle(rotation, target_rotation, min(rotation_lerp_speed * delta, 1.0))
 		
 	velocity = (move_direction * get_effective_move_speed()) + _knockback_velocity
-
+	
 	move_and_slide()
 	_handle_shooting()
 
@@ -66,17 +65,17 @@ func _get_move_direction() -> Vector2:
 func _handle_shooting() -> void:
 	var wants_fire := _shoot_requested
 	_shoot_requested = false
-
+	
 	if InputMap.has_action("fire") and Input.is_action_just_pressed("fire"):
 		explode_particle()
 		play_Squish()
-		cam_shake.trigger_shake(17.0, 10)
+		cam_shake.trigger_shake(27.0, 8)
 		SoundPool.play_sound(shoot_audio, 2.0, 1.0, true)
 		wants_fire = true
 
 	if not wants_fire or _shoot_cooldown_left > 0.0 or bullet_scene == null:
 		return
-
+	
 	var bullet := bullet_scene.instantiate()
 	if bullet == null:
 		return
@@ -84,17 +83,17 @@ func _handle_shooting() -> void:
 	var bullet_direction := Vector2.UP.rotated(rotation)
 	var spawn_position := cannon.to_global(Vector2(0.0, -muzzle_distance))
 	bullet.global_position = spawn_position
-
+	
 	if bullet.has_method("setup"):
 		bullet.call("setup", bullet_direction)
 	else:
 		bullet.rotation = bullet_direction.angle() + PI * 0.5
-
+	
 	var spawn_parent := get_tree().current_scene
 	if spawn_parent == null:
 		spawn_parent = get_parent()
 	spawn_parent.add_child(bullet)
-
+	
 	_knockback_velocity = -bullet_direction * knockback_force
 	_shoot_cooldown_left = shoot_cooldown
 
@@ -126,7 +125,7 @@ func set_boost_multiplier(multiplier: float) -> void:
 	if _scale_tween and _scale_tween.is_valid():
 		_scale_tween.kill()
 		
-	_scale_tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT).set_parallel(true)
+	_scale_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT).set_parallel(true)
 	var target_scale_y = 1.25 if _boost_multiplier > 1.0 else 1.0
 	var target_scale_x = 0.8 if _boost_multiplier > 1.0 else 1.0
 	_scale_tween.tween_property(sprite, "scale:y", target_scale_y, 0.2)

@@ -12,6 +12,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_skjrk"]
 size = Vector2(84, 78)
 
+[sub_resource type="Gradient" id="Gradient_3k0ot"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_kcd7c"]
+gradient = SubResource("Gradient_3k0ot")
+
+[sub_resource type="Curve" id="Curve_4uin6"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jhf4l"]
+curve = SubResource("Curve_4uin6")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_imyak"]
 particle_flag_disable_z = true
 emission_shape_scale = Vector3(0.1, 0.1, 1)
@@ -25,7 +37,13 @@ linear_accel_min = 9.999997
 linear_accel_max = 9.999997
 scale_min = 10.0
 scale_max = 10.0
+scale_over_velocity_curve = SubResource("CurveTexture_jhf4l")
 color = Color(1.353256, 1.1020228, 0.09985284, 1)
+color_ramp = SubResource("GradientTexture1D_kcd7c")
+hue_variation_min = -0.010000022
+hue_variation_max = -0.010000022
+turbulence_enabled = true
+turbulence_noise_strength = 7.42
 
 [sub_resource type="Animation" id="Animation_kcd7c"]
 length = 0.001
@@ -67,6 +85,8 @@ _data = {
 [node name="TankW72D" type="CharacterBody2D" unique_id=616766899]
 script = ExtResource("3_2w2du")
 bullet_scene = ExtResource("4_qtq6a")
+knockback_force = 1000.0
+knockback_friction = 2000.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1269178843]
 texture = ExtResource("1_au5bc")
@@ -87,7 +107,6 @@ amount = 20
 lifetime = 0.3
 one_shot = true
 explosiveness = 1.0
-randomness = 0.45
 process_material = SubResource("ParticleProcessMaterial_imyak")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=263964115]
@@ -110,6 +129,7 @@ cam = NodePath("../Camera2D")
 metadata/_custom_type_script = "uid://eaki8iwjyn6s"
 
 [node name="CanvasLayer" parent="." unique_id=1687515984 instance=ExtResource("7_e75tq")]
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1823553329]
 libraries/ = SubResource("AnimationLibrary_kcd7c")

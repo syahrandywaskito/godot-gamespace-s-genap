@@ -21,6 +21,11 @@ tile_name = &"rocks"
 effect_type = 1
 speed_multiplier = 2.0
 
+[sub_resource type="Resource" id="Resource_aigak"]
+script = ExtResource("2_3qjr8")
+effect_type = 1
+metadata/_custom_type_script = "uid://ch6x2k87rxcvl"
+
 [resource]
 script = ExtResource("1_n4g1p")
-effects = Array[ExtResource("2_3qjr8")]([SubResource("Resource_dirt"), SubResource("Resource_trap"), SubResource("Resource_fo88t")])
+effects = Array[ExtResource("2_3qjr8")]([SubResource("Resource_dirt"), SubResource("Resource_trap"), SubResource("Resource_fo88t"), SubResource("Resource_aigak"), null, null, null, null, null])

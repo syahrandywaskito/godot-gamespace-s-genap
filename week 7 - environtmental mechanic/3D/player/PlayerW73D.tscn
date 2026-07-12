@@ -3276,6 +3276,8 @@ camera = NodePath("../Camera Pivot/SpringArm3D/Camera")
 metadata/_custom_type_script = "uid://bltc6grmheq3j"
 
 [node name="AreaDetection" type="Area3D" parent="." unique_id=2005818840]
+collision_layer = 0
+collision_mask = 0
 script = ExtResource("3_4d0oa")
 
 [node name="AreaCollision" type="CollisionShape3D" parent="AreaDetection" unique_id=916219995]

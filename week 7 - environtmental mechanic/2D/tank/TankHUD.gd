@@ -15,5 +15,5 @@ func _on_boost_setup(max_boost: float) -> void:
 func _on_boost_changed(current_boost: float) -> void:
 	if tween and tween.is_valid():
 		tween.kill()
-	tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	tween.tween_property(progress_bar, "value", current_boost, 0.1)
